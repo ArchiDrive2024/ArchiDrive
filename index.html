@@ -79,7 +79,7 @@
                     formData.append("file", file);
 
                     // Invia il file al server per caricarlo su Google Drive tramite PHP
-                    fetch("upload.php", {
+                    fetch("https://87f28356-87ef-438e-98fc-9aa14ca0d60e-00-nhoovdsfebrz.kirk.replit.dev/upload.php", {
                         method: "POST",
                         body: formData
                     })
@@ -96,7 +96,7 @@
 
                 // Funzione per visualizzare i file dal Google Drive
                 function loadDriveFiles() {
-                    fetch("get_files.php")
+                    fetch("https://87f28356-87ef-438e-98fc-9aa14ca0d60e-00-nhoovdsfebrz.kirk.replit.dev/get_files.php")
                         .then(response => response.json())
                         .then(data => {
                             const fileList = document.getElementById("fileList");
