@@ -79,7 +79,7 @@
                     formData.append("file", file);
 
                     // Invia il file al server per caricarlo su Google Drive tramite PHP
-                    fetch("http://archidriveserver.rf.gd/upload.php", {
+                    fetch("https://archidriveserver.x10.mx/upload.php", {
                         method: "POST",
                         body: formData
                     })
@@ -96,7 +96,7 @@
 
                 // Funzione per visualizzare i file dal Google Drive
                 function loadDriveFiles() {
-                    fetch("http://archidriveserver.rf.gd/get_files.php")
+                    fetch("https://archidriveserver.x10.mx/get_files.php")
                         .then(response => response.json())
                         .then(data => {
                             const fileList = document.getElementById("fileList");
