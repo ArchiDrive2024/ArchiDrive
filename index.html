@@ -21,6 +21,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 </head>
 
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArchiDrive - Gestione File</title>
+    <link href="css/style.css" rel="stylesheet">
+
+    <!--Api Google Drive-->
+    <script src="https://apis.google.com/js/api.js"></script>
+
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+        rel="stylesheet">
+
+    <!--Libreria JavaScript per file .pdf-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+</head>
+
 <body>
     <div class="container">
         <button class="theme-switch" onclick="toggleTheme()">
@@ -28,122 +52,242 @@
             <span id="theme-text">Tema</span>
         </button>
 
-        <script>
-
-            function toggleTheme() {
-                const body = document.documentElement;
-                const currentTheme = body.getAttribute("data-theme");
-                const newTheme = currentTheme === "dark" ? "light" : "dark";
-                body.setAttribute("data-theme", newTheme);
-
-                // Aggiorna l'icona
-                const icon = document.getElementById("theme-icon");
-                icon.textContent = newTheme === "dark" ? "🌙" : "☀️";
-
-                // Salva la preferenza
-                localStorage.setItem("theme", newTheme);
-            }
-
-            // Applica il tema salvato in precedenza
-            const savedTheme = localStorage.getItem("theme") || "light";
-            document.documentElement.setAttribute("data-theme", savedTheme);
-            document.getElementById("theme-icon").textContent =
-                savedTheme === "dark" ? "🌙" : "☀️";
-
-        </script>
-
         <div class="container2">
-            <h2>Carica nell' ArchiDrive</h2>
-
+            <h2>Carica nell'ArchiDrive</h2>
             <form id="uploadForm" class="uploadForm">
                 <div>
                     <input type="file" id="fileInput" name="file" class="file">
-                    <button type="button" class="file_btn" onclick="uploadFile()">
-                        Carica
-                    </button>
+                    <button type="button" class="file_btn" onclick="uploadFile()">Carica</button>
                 </div>
             </form>
-            <p>Prova</p>
-            <script>
-                // Funzione per caricare un file su Google Drive
-                function uploadFile() {
-                    const fileInput = document.getElementById("fileInput");
-                    const file = fileInput.files[0];
-
-                    if (!file) {
-                        alert("Seleziona un file per caricarlo!");
-                        return;
-                    }
-
-                    const formData = new FormData();
-                    formData.append("file", file);
-
-                    // Invia il file al server per caricarlo su Google Drive tramite PHP
-                    fetch("https://archidriveserver.x10.mx/upload.php", {
-                        method: "POST",
-                        body: formData
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert("File caricato con successo!");
-                                loadDriveFiles(); // Ricarica la lista dei file
-                            } else {
-                                alert("Errore nel caricare il file.");
-                            }
-                        });
-                }
-
-                // Funzione per visualizzare i file dal Google Drive
-                function loadDriveFiles() {
-                    fetch("https://archidriveserver.x10.mx/get_files.php")
-                        .then(response => response.json())
-                        .then(data => {
-                            const fileList = document.getElementById("fileList");
-                            fileList.innerHTML = ""; // Pulisce la lista esistente
-                            data.files.forEach(file => {
-                                const listItem = document.createElement("li");
-                                listItem.textContent = file.name;
-                                fileList.appendChild(listItem);
-                            });
-                        });
-                }
-
-                // Inizializza la Google API Client
-                function initGoogleAPI() {
-                    gapi.load("client:auth2", () => {
-                        gapi.client.init({
-                            apiKey: "AIzaSyCku-LLM-sMnUvVNZt8PtowR909ag8g6d4", // Inserisci la tua API Key qui
-                            clientId: "947691574776-9rgmarta3edcj4dtnt3du363ignti6ej.apps.googleusercontent.com", // Inserisci il tuo Client ID qui
-                            scope: "https://www.googleapis.com/auth/drive.file"
-                        }).then(() => {
-                            console.log("Google API Client inizializzato");
-                            loadDriveFiles(); // Carica i file quando l'API è pronta
-                        });
-                    });
-                }
-
-                // Quando la pagina è pronta, inizializza Google API
-                window.onload = initGoogleAPI;
-            </script>
-
             <div id="loading" class="loading_text">
                 <img src="assets/logo.png" alt="Loading logo" />
             </div>
-
             <div id="status" class="uploading_result"></div>
         </div>
 
         <div class="container3">
             <h2>I tuoi file</h2>
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="Cerca nei tuoi file..."
+                    onkeyup="filterFiles()">
+            </div>
             <ul id="fileList" class="file_list"></ul>
-            <button id="refreshButton" class="file_btn" onclick="loadDriveFiles()">
-                Aggiorna lista
-            </button>
+            <button id="refreshButton" class="file_btn" onclick="loadDriveFiles()">Aggiorna lista</button>
         </div>
     </div>
 
-    <canvas id="canvas" style="display: none;"></canvas>
+    <div id="fileViewerModal" class="file-viewer-modal">
+        <div class="file-viewer-content">
+            <button class="close-viewer" onclick="closeFileViewer()">×</button>
+            <div id="loadingViewer" class="loading-indicator">Caricamento...</div>
+            <div id="fileContent" class="file-content"></div>
+        </div>
+    </div>
+
+    <script>
+
+        window.onload = loadDriveFiles();
+
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            body.setAttribute("data-theme", newTheme);
+            const icon = document.getElementById("theme-icon");
+            icon.textContent = newTheme === "dark" ? "🌙" : "☀️";
+            localStorage.setItem("theme", newTheme);
+        }
+
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+        document.getElementById("theme-icon").textContent = savedTheme === "dark" ? "🌙" : "☀️";
+
+        function uploadFile() {
+            const fileInput = document.getElementById("fileInput");
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert("Seleziona un file per caricarlo!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            fetch("https://archidriveserver.x10.mx/upload.php", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("File caricato con successo!");
+                        loadDriveFiles();
+                    } else {
+                        alert("Errore nel caricare il file.");
+                    }
+                });
+        }
+
+        function loadDriveFiles() {
+            fetch("https://archidriveserver.x10.mx/get_files.php")
+                .then(response => response.json())
+                .then(data => {
+                    const fileList = document.getElementById("fileList");
+                    fileList.innerHTML = "";
+                    data.files.forEach(file => {
+                        const listItem = document.createElement("li");
+                        listItem.textContent = file.name;
+                        listItem.onclick = () => openFileViewer(file.id, file.name);
+                        fileList.appendChild(listItem);
+                    });
+                });
+        }
+
+        function openFileViewer(fileId, fileName) {
+            const modal = document.getElementById('fileViewerModal');
+            const content = document.getElementById('fileContent');
+            const loading = document.getElementById('loadingViewer');
+
+            modal.style.display = 'flex';
+            content.style.display = 'none';
+            loading.style.display = 'block';
+
+            // Usa il nuovo endpoint PHP per ottenere il link di visualizzazione
+            fetch(`https://archidriveserver.x10.mx/get_view_link.php?fileId=${fileId}`)
+                .then(response => response.json())
+                .then(data => {
+                    loading.style.display = 'none';
+                    content.style.display = 'block';
+
+                    if (data.webViewLink) {
+                        content.innerHTML = `<iframe src="${data.webViewLink}" allowfullscreen></iframe>`;
+                    } else {
+                        content.innerHTML = "Impossibile visualizzare il file";
+                    }
+                })
+                .catch(error => {
+                    loading.style.display = 'none';
+                    content.innerHTML = "Errore nel caricamento del file";
+                });
+        }
+
+        function closeFileViewer() {
+            const modal = document.getElementById('fileViewerModal');
+            modal.style.display = 'none';
+            document.getElementById('fileContent').innerHTML = '';
+        }
+
+        function initGoogleAPI() {
+            gapi.load("client:auth2", () => {
+                gapi.client.init({
+                    apiKey: "AIzaSyCku-LLM-sMnUvVNZt8PtowR909ag8g6d4",
+                    clientId: "947691574776-9rgmarta3edcj4dtnt3du363ignti6ej.apps.googleusercontent.com",
+                    scope: "https://www.googleapis.com/auth/drive.file"
+                }).then(() => {
+                    console.log("Google API Client inizializzato");
+                    loadDriveFiles();
+                });
+            });
+        }
+
+        window.onload = initGoogleAPI;
+
+        // Chiudi il modale quando si clicca fuori
+        document.getElementById('fileViewerModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeFileViewer();
+            }
+        });
+
+        let allFiles = [];
+
+        function loadDriveFiles() {
+            fetch("https://archidriveserver.x10.mx/get_files.php")
+                .then(response => response.json())
+                .then(data => {
+                    allFiles = data.files;
+                    displayFiles(allFiles);
+                });
+        }
+
+        function displayFiles(files) {
+            const fileList = document.getElementById("fileList");
+            fileList.innerHTML = "";
+
+            if (files.length === 0) {
+                fileList.innerHTML = `
+                    <div class="file-list-empty">
+                        Nessun file trovato
+                    </div>
+                `;
+                return;
+            }
+
+            files.forEach(file => {
+                const listItem = document.createElement("li");
+                listItem.className = "file-list-item search-result";
+                listItem.innerHTML = `
+                    <div class="file-icon">📄</div>
+                    <div class="file-details">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-info">Modificato: ${new Date(file.modifiedTime).toLocaleDateString()}</div>
+                    </div>
+                `;
+                listItem.onclick = () => openFileViewer(file.id, file.name);
+                fileList.appendChild(listItem);
+            });
+        }
+
+        function filterFiles() {
+            const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+
+            if (searchTerm === "") {
+                displayFiles(allFiles);
+                return;
+            }
+
+            const filteredFiles = allFiles.filter(file =>
+                file.name.toLowerCase().includes(searchTerm)
+            );
+
+            // Evidenzia i termini di ricerca nei risultati
+            const fileList = document.getElementById("fileList");
+            fileList.innerHTML = "";
+
+            if (filteredFiles.length === 0) {
+                fileList.innerHTML = `
+                    <div class="file-list-empty">
+                        Nessun risultato per "${searchTerm}"
+                    </div>
+                `;
+                return;
+            }
+
+            filteredFiles.forEach(file => {
+                const listItem = document.createElement("li");
+                listItem.className = "file-list-item search-result";
+
+                // Evidenzia il termine di ricerca nel nome del file
+                const fileName = file.name.replace(
+                    new RegExp(searchTerm, 'gi'),
+                    match => `<span class="highlight">${match}</span>`
+                );
+
+                listItem.innerHTML = `
+                    <div class="file-icon">📄</div>
+                    <div class="file-details">
+                        <div class="file-name">${fileName}</div>
+                        <div class="file-info">Modificato: ${new Date(file.modifiedTime).toLocaleDateString()}</div>
+                    </div>
+                `;
+                listItem.onclick = () => openFileViewer(file.id, file.name);
+                fileList.appendChild(listItem);
+            });
+        }
+    </script>
 </body>
 
 </html>
