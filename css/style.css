@@ -96,7 +96,7 @@
 body {
     font-family: 'Titillium Web', sans-serif;
     background: var(--background);
-    margin: 0;
+    margin: 220;
     padding: 0;
     color: var(--text-primary);
     line-height: 1.6;
