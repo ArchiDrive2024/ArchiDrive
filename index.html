@@ -155,7 +155,6 @@
             content.style.display = 'none';
             loading.style.display = 'block';
 
-            // Usa il nuovo endpoint PHP per ottenere il link di visualizzazione
             fetch(`https://archidriveserver.x10.mx/get_view_link.php?fileId=${fileId}`)
                 .then(response => response.json())
                 .then(data => {
@@ -195,7 +194,6 @@
 
         window.onload = initGoogleAPI;
 
-        // Chiudi il modale quando si clicca fuori
         document.getElementById('fileViewerModal').addEventListener('click', function (e) {
             if (e.target === this) {
                 closeFileViewer();
@@ -253,7 +251,6 @@
                 file.name.toLowerCase().includes(searchTerm)
             );
 
-            // Evidenzia i termini di ricerca nei risultati
             const fileList = document.getElementById("fileList");
             fileList.innerHTML = "";
 
@@ -270,7 +267,6 @@
                 const listItem = document.createElement("li");
                 listItem.className = "file-list-item search-result";
 
-                // Evidenzia il termine di ricerca nel nome del file
                 const fileName = file.name.replace(
                     new RegExp(searchTerm, 'gi'),
                     match => `<span class="highlight">${match}</span>`
