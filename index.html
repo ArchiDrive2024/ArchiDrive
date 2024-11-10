@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArchiDrive - Gestione File</title>
+    <link href="css/style.css" rel="stylesheet">
+
+    <!--Api Google Drive-->
+    <script src="https://apis.google.com/js/api.js"></script>
+
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+        rel="stylesheet">
+
+    <!--Libreria JavaScript per file .pdf-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <button class="theme-switch" onclick="toggleTheme()">
+            <span id="theme-icon">☀️</span>
+            <span id="theme-text">Tema</span>
+        </button>
+
+        <script>
+
+            function toggleTheme() {
+                const body = document.documentElement;
+                const currentTheme = body.getAttribute("data-theme");
+                const newTheme = currentTheme === "dark" ? "light" : "dark";
+                body.setAttribute("data-theme", newTheme);
+
+                // Aggiorna l'icona
+                const icon = document.getElementById("theme-icon");
+                icon.textContent = newTheme === "dark" ? "🌙" : "☀️";
+
+                // Salva la preferenza
+                localStorage.setItem("theme", newTheme);
+            }
+
+            // Applica il tema salvato in precedenza
+            const savedTheme = localStorage.getItem("theme") || "light";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+            document.getElementById("theme-icon").textContent =
+                savedTheme === "dark" ? "🌙" : "☀️";
+
+        </script>
+
+        <div class="container2">
+            <h2>Carica nell' ArchiDrive</h2>
+
+            <form id="uploadForm" class="uploadForm">
+                <div>
+                    <input type="file" id="fileInput" name="file" class="file">
+                    <button type="button" class="file_btn" onclick="uploadFile()">
+                        Carica
+                    </button>
+                </div>
+            </form>
+
+            <script>
+                // Funzione per caricare un file su Google Drive
+                function uploadFile() {
+                    const fileInput = document.getElementById("fileInput");
+                    const file = fileInput.files[0];
+
+                    if (!file) {
+                        alert("Seleziona un file per caricarlo!");
+                        return;
+                    }
+
+                    const formData = new FormData();
+                    formData.append("file", file);
+
+                    // Invia il file al server per caricarlo su Google Drive tramite PHP
+                    fetch("upload.php", {
+                        method: "POST",
+                        body: formData
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert("File caricato con successo!");
+                                loadDriveFiles(); // Ricarica la lista dei file
+                            } else {
+                                alert("Errore nel caricare il file.");
+                            }
+                        });
+                }
+
+                // Funzione per visualizzare i file dal Google Drive
+                function loadDriveFiles() {
+                    fetch("get_files.php")
+                        .then(response => response.json())
+                        .then(data => {
+                            const fileList = document.getElementById("fileList");
+                            fileList.innerHTML = ""; // Pulisce la lista esistente
+                            data.files.forEach(file => {
+                                const listItem = document.createElement("li");
+                                listItem.textContent = file.name;
+                                fileList.appendChild(listItem);
+                            });
+                        });
+                }
+
+                // Inizializza la Google API Client
+                function initGoogleAPI() {
+                    gapi.load("client:auth2", () => {
+                        gapi.client.init({
+                            apiKey: "AIzaSyCku-LLM-sMnUvVNZt8PtowR909ag8g6d4", // Inserisci la tua API Key qui
+                            clientId: "947691574776-9rgmarta3edcj4dtnt3du363ignti6ej.apps.googleusercontent.com", // Inserisci il tuo Client ID qui
+                            scope: "https://www.googleapis.com/auth/drive.file"
+                        }).then(() => {
+                            console.log("Google API Client inizializzato");
+                            loadDriveFiles(); // Carica i file quando l'API è pronta
+                        });
+                    });
+                }
+
+                // Quando la pagina è pronta, inizializza Google API
+                window.onload = initGoogleAPI;
+            </script>
+
+            <div id="loading" class="loading_text">
+                <img src="assets/logo.png" alt="Loading logo" />
+            </div>
+
+            <div id="status" class="uploading_result"></div>
+        </div>
+
+        <div class="container3">
+            <h2>I tuoi file</h2>
+            <ul id="fileList" class="file_list"></ul>
+            <button id="refreshButton" class="file_btn" onclick="loadDriveFiles()">
+                Aggiorna lista
+            </button>
+        </div>
+    </div>
+
+    <canvas id="canvas" style="display: none;"></canvas>
+</body>
+
+</html>
