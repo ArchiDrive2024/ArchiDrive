@@ -29,6 +29,15 @@
         window.onload = loadDriveFiles();
     </script>
 
+    <script>
+        function toggleFileUploadSection() {
+            const fileUploadSection = document.getElementById("fileUploadSection");
+            fileUploadSection.classList.toggle("open");
+            fileUploadSection.classList.toggle("close");
+        }
+
+    </script>
+
 </head>
 
 <body>
