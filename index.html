@@ -38,19 +38,23 @@
             <span id="theme-text">Tema</span>
         </button>
 
-        <div class="container2">
-            <h2>Carica nell'ArchiDrive</h2>
-            <form id="uploadForm" class="uploadForm">
-                <div>
-                    <input type="text" id="fileNameInput" placeholder="Inserisci un nome per il file" />
-                    <input type="file" id="fileInput" name="file" class="file">
-                    <button type="button" class="file_btn" onclick="uploadFile()">Carica</button>
+        <button class="file-upload-btn" onclick="toggleFileUploadSection()">Carica File</button>
+
+        <div class="file-upload-section" id="fileUploadSection">
+            <div class="container2">
+                <h2>Carica nell'ArchiDrive</h2>
+                <form id="uploadForm" class="uploadForm">
+                    <div>
+                        <input type="text" id="fileNameInput" placeholder="Inserisci un nome per il file" />
+                        <input type="file" id="fileInput" name="file" class="file">
+                        <button type="button" class="file_btn" onclick="uploadFile()">Carica</button>
+                    </div>
+                </form>
+                <div id="loading" class="loading_text">
+                    <img src="assets/logo.png" alt="Loading logo" />
                 </div>
-            </form>
-            <div id="loading" class="loading_text">
-                <img src="assets/logo.png" alt="Loading logo" />
+                <div id="status" class="uploading_result"></div>
             </div>
-            <div id="status" class="uploading_result"></div>
         </div>
 
         <div class="container3">

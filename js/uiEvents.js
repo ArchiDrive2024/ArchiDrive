@@ -54,3 +54,9 @@ function filterFiles() {
     fileList.appendChild(listItem);
   });
 }
+
+function toggleFileUploadSection() {
+  const fileUploadSection = document.getElementById("fileUploadSection");
+  fileUploadSection.classList.toggle("open");
+  fileUploadSection.classList.toggle("close");
+}
