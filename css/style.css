@@ -580,6 +580,7 @@ h2 {
     top: 80%;
     right: 4%;
     overflow: hidden;
+    z-index: 10000000;
 }
 
 .file_btnNext {
