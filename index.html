@@ -21,30 +21,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 </head>
 
-<!DOCTYPE html>
-<html lang="it">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArchiDrive - Gestione File</title>
-    <link href="css/style.css" rel="stylesheet">
-
-    <!--Api Google Drive-->
-    <script src="https://apis.google.com/js/api.js"></script>
-
-    <!--Google Fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
-        rel="stylesheet">
-
-    <!--Libreria JavaScript per file .pdf-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-
-</head>
-
 <body>
     <div class="container">
         <button class="theme-switch" onclick="toggleTheme()">
@@ -87,7 +63,6 @@
     </div>
 
     <script>
-
         window.onload = loadDriveFiles();
 
         function toggleTheme() {
@@ -104,7 +79,7 @@
         document.documentElement.setAttribute("data-theme", savedTheme);
         document.getElementById("theme-icon").textContent = savedTheme === "dark" ? "🌙" : "☀️";
 
-        function uploadFile() {
+        async function uploadFile() {
             const fileInput = document.getElementById("fileInput");
             const file = fileInput.files[0];
 
@@ -113,8 +88,14 @@
                 return;
             }
 
+            // Crea un canvas per elaborare l'immagine
+            const canvas = document.createElement("canvas");
+
+            // Aggiungi la filigrana al file
+            const fileWithWatermark = await addWatermark(file, canvas);
+
             const formData = new FormData();
-            formData.append("file", file);
+            formData.append("file", fileWithWatermark);
 
             fetch("https://archidriveserver.x10.mx/upload.php", {
                 method: "POST",
@@ -129,6 +110,97 @@
                         alert("Errore nel caricare il file.");
                     }
                 });
+        }
+
+        async function addWatermark(file, canvas) {
+            if (file.type === "application/pdf") {
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                    const pages = pdfDoc.getPages();
+
+                    // Aggiungi la filigrana a ogni pagina del pdf
+                    pages.forEach((page) => {
+                        const { width, height } = page.getSize();
+                        page.drawText("I.S.S. ARCHIMEDE (BG)      I.S.S. ARCHIMEDE (BG)", {
+                            x: width / 2 - 250,
+                            y: height / 2 + 260,
+                            size: 60,
+                            color: PDFLib.rgb(0, 0, 1),
+                            opacity: 0.1,
+                            rotate: PDFLib.degrees(-45),
+                        });
+                    });
+
+                    const pdfBytes = await pdfDoc.save();
+                    return new Blob([pdfBytes], { type: "application/pdf" });
+
+                } catch (error) {
+                    console.error("Errore durante l'elaborazione del PDF:", error);
+                    throw error;
+                }
+            }
+            else if (file.type === "image/png" || file.type === "image/jpeg") {
+                return new Promise((resolve, reject) => {
+                    const ctx = canvas.getContext("2d");
+                    const img = new Image();
+
+                    img.onload = () => {
+                        try {
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+
+                            // Prima disegna l'immagine
+                            ctx.drawImage(img, 0, 0);
+
+                            // Salva lo stato corrente del contesto
+                            ctx.save();
+
+                            // Configura e applica la filigrana
+                            const K = 40;
+                            const fontValue = `${(img.width * img.height * 250) / 9000000 + K}px Arial`;
+                            ctx.font = fontValue;
+
+                            const angleInRadians = -40 * (Math.PI / 180);
+
+                            // Sposta il punto di origine al centro dell'immagine
+                            ctx.translate(canvas.width / 2, canvas.height / 2);
+
+                            // Applica la rotazione
+                            ctx.rotate(angleInRadians);
+
+                            ctx.fillStyle = "rgba(0, 0, 139, 0.2)";
+                            ctx.textAlign = "center";
+
+                            // Disegna il testo centrato
+                            ctx.fillText(
+                                "I.S.S. ARCHIMEDE (BG)      I.S.S. ARCHIMEDE (BG)",
+                                0,
+                                0
+                            );
+
+                            // Ripristina lo stato salvato
+                            ctx.restore();
+
+                            canvas.toBlob((blob) => {
+                                if (blob) {
+                                    resolve(blob);
+                                } else {
+                                    reject(new Error("Errore nella creazione del blob dell'immagine"));
+                                }
+                            }, file.type);
+                        } catch (error) {
+                            reject(error);
+                        }
+                    };
+
+                    img.onerror = () => reject(new Error("Errore nel caricamento dell'immagine"));
+                    img.src = URL.createObjectURL(file);
+                });
+            } else {
+                // Per altri tipi di file, restituisci il file originale senza modifiche
+                return file;
+            }
         }
 
         function loadDriveFiles() {
