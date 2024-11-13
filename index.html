@@ -32,6 +32,7 @@
             <h2>Carica nell'ArchiDrive</h2>
             <form id="uploadForm" class="uploadForm">
                 <div>
+                    <input type="text" id="fileNameInput" placeholder="Inserisci un nome per il file" />
                     <input type="file" id="fileInput" name="file" class="file">
                     <button type="button" class="file_btn" onclick="uploadFile()">Carica</button>
                 </div>
@@ -80,6 +81,7 @@
         document.getElementById("theme-icon").textContent = savedTheme === "dark" ? "🌙" : "☀️";
 
         async function uploadFile() {
+            const fileNameInput = document.getElementById("fileNameInput");
             const fileInput = document.getElementById("fileInput");
             const file = fileInput.files[0];
 
@@ -88,14 +90,20 @@
                 return;
             }
 
+            let fileName = fileNameInput.value.trim();
+            if (fileName === "") {
+                fileName = file.name;
+            }
+
             // Crea un canvas per elaborare l'immagine
             const canvas = document.createElement("canvas");
 
             // Aggiungi la filigrana al file
-            const fileWithWatermark = await addWatermark(file, canvas);
+            const fileWithWatermark = await addWatermark(file, canvas, fileName);
 
             const formData = new FormData();
             formData.append("file", fileWithWatermark);
+            formData.append("fileName", fileName);
 
             fetch("https://archidriveserver.x10.mx/upload.php", {
                 method: "POST",
@@ -112,7 +120,7 @@
                 });
         }
 
-        async function addWatermark(file, canvas) {
+        async function addWatermark(file, canvas, fileName) {
             if (file.type === "application/pdf") {
                 try {
                     const arrayBuffer = await file.arrayBuffer();
@@ -122,7 +130,7 @@
                     // Aggiungi la filigrana a ogni pagina del pdf
                     pages.forEach((page) => {
                         const { width, height } = page.getSize();
-                        page.drawText("I.S.S. ARCHIMEDE (BG)      I.S.S. ARCHIMEDE (BG)", {
+                        page.drawText(`${fileName} - I.S.S. ARCHIMEDE (BG)`, {
                             x: width / 2 - 250,
                             y: height / 2 + 260,
                             size: 60,
@@ -174,7 +182,7 @@
 
                             // Disegna il testo centrato
                             ctx.fillText(
-                                "I.S.S. ARCHIMEDE (BG)      I.S.S. ARCHIMEDE (BG)",
+                                `${fileName} - I.S.S. ARCHIMEDE (BG)`,
                                 0,
                                 0
                             );
