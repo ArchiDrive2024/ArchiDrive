@@ -29,15 +29,6 @@
         window.onload = loadDriveFiles();
     </script>
 
-    <script>
-        function toggleFileUploadSection() {
-            const fileUploadSection = document.getElementById("fileUploadSection");
-            fileUploadSection.classList.toggle("open");
-            fileUploadSection.classList.toggle("close");
-        }
-
-    </script>
-
 </head>
 
 <body>
@@ -47,23 +38,19 @@
             <span id="theme-text">Tema</span>
         </button>
 
-        <button class="file-upload-btn" onclick="toggleFileUploadSection()">Carica File</button>
-
-        <div class="file-upload-section" id="fileUploadSection">
-            <div class="container2">
-                <h2>Carica nell'ArchiDrive</h2>
-                <form id="uploadForm" class="uploadForm">
-                    <div>
-                        <input type="text" id="fileNameInput" placeholder="Inserisci un nome per il file" />
-                        <input type="file" id="fileInput" name="file" class="file">
-                        <button type="button" class="file_btn" onclick="uploadFile()">Carica</button>
-                    </div>
-                </form>
-                <div id="loading" class="loading_text">
-                    <img src="assets/logo.png" alt="Loading logo" />
+        <div class="container2" id="uploadContainer" style="display: none;">
+            <h2>Carica nell'ArchiDrive</h2>
+            <form id="uploadForm" class="uploadForm">
+                <div>
+                    <input type="text" id="fileNameInput" placeholder="Inserisci un nome per il file" />
+                    <input type="file" id="fileInput" name="file" class="file">
+                    <button type="button" class="file_btn" onclick="uploadFile()">Carica</button>
                 </div>
-                <div id="status" class="uploading_result"></div>
+            </form>
+            <div id="loading" class="loading_text">
+                <img src="assets/logo.png" alt="Loading logo" />
             </div>
+            <div id="status" class="uploading_result"></div>
         </div>
 
         <div class="container3">
@@ -85,6 +72,7 @@
             <div id="fileContent" class="file-content"></div>
         </div>
     </div>
+    <button class="file_btn" onclick="toggleUploadContainer()">Carica File</button>
 </body>
 
 </html>

@@ -54,3 +54,21 @@ function filterFiles() {
     fileList.appendChild(listItem);
   });
 }
+
+function toggleUploadContainer() {
+  const uploadContainer = document.getElementById("uploadContainer");
+  if (uploadContainer.style.display === "none") {
+    uploadContainer.style.display = "block";
+    uploadContainer.classList.add("animate__animated", "animate__fadeInDown");
+  } else {
+    uploadContainer.classList.add("animate__animated", "animate__fadeOutUp");
+    setTimeout(() => {
+      uploadContainer.style.display = "none";
+      uploadContainer.classList.remove(
+        "animate__animated",
+        "animate__fadeInDown",
+        "animate__fadeOutUp"
+      );
+    }, 500);
+  }
+}
