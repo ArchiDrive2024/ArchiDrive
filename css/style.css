@@ -624,6 +624,7 @@ h2 {
     font-size: 20px;
     color: var(--success);
     outline-color: transparent;
+    background-color: transparent;
 }
 
 .fileName legend {
