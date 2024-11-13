@@ -99,10 +99,11 @@
             const canvas = document.createElement("canvas");
 
             // Aggiungi la filigrana al file
-            const fileWithWatermark = await addWatermark(file, canvas, fileName);
+            const fileWithWatermark = await addWatermark(file, canvas);
 
             const formData = new FormData();
-            formData.append("file", fileWithWatermark, fileName);
+            formData.append("file", fileWithWatermark);
+            formData.append("fileName", fileName);
 
             fetch("https://archidriveserver.x10.mx/upload.php", {
                 method: "POST",
@@ -119,7 +120,7 @@
                 });
         }
 
-        async function addWatermark(file, canvas, fileName) {
+        async function addWatermark(file, canvas) {
             if (file.type === "application/pdf") {
                 try {
                     const arrayBuffer = await file.arrayBuffer();
@@ -129,7 +130,7 @@
                     // Aggiungi la filigrana a ogni pagina del pdf
                     pages.forEach((page) => {
                         const { width, height } = page.getSize();
-                        page.drawText(`${fileName} - I.S.S. ARCHIMEDE (BG)`, {
+                        page.drawText("I.S.S. ARCHIMEDE (BG)      I.S.S. ARCHIMEDE (BG)", {
                             x: width / 2 - 250,
                             y: height / 2 + 260,
                             size: 60,
@@ -181,7 +182,7 @@
 
                             // Disegna il testo centrato
                             ctx.fillText(
-                                `${fileName} - I.S.S. ARCHIMEDE (BG)`,
+                                "I.S.S. ARCHIMEDE (BG)      I.S.S. ARCHIMEDE (BG)",
                                 0,
                                 0
                             );
