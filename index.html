@@ -102,8 +102,8 @@
             const fileWithWatermark = await addWatermark(file, canvas);
 
             const formData = new FormData();
-            formData.append("file", fileWithWatermark);
-            formData.append("fileName", fileName);
+            formData.append("file", fileWithWatermark, fileName);
+            //formData.append("fileName", fileName);
 
             fetch("https://archidriveserver.x10.mx/upload.php", {
                 method: "POST",
