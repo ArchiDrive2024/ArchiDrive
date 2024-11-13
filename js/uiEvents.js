@@ -72,3 +72,31 @@ function toggleUploadContainer() {
     }, 500);
   }
 }
+
+function fileUploadNext() {
+  const fileNameInput = document.getElementById("fileName");
+  const fileInput = document.getElementById("fileInput");
+  const btnNext = document.getElementById("file_btnNext");
+  const btnFile = document.getElementById("file_btn");
+  const btnBack = document.getElementById("btnBack");
+
+  if (
+    fileNameInput.style.display === "none" ||
+    fileInput.style.display === "block" ||
+    btnNext.style.display === "block" ||
+    btnFile.style.display === "none" ||
+    btnBack.style.display === "none"
+  ) {
+    fileNameInput.style.display = "block";
+    fileInput.style.display = "none";
+    btnNext.style.display = "none";
+    btnFile.style.display = "block";
+    btnBack.style.display = "block";
+  } else {
+    fileNameInput.style.display = "none";
+    fileInput.style.display = "block";
+    btnNext.style.display = "block";
+    btnFile.style.display = "none";
+    btnBack.style.display = "none";
+  }
+}
