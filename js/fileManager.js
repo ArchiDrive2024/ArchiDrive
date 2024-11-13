@@ -71,7 +71,7 @@ async function uploadFile() {
     .then((data) => {
       if (data.success) {
         alert("File caricato con successo!");
-        loadDriveFiles();
+        window.location.reload(true);
       } else {
         alert("Errore nel caricare il file.");
       }
