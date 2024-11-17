@@ -43,10 +43,12 @@ async function uploadFile() {
   const fileNameInput = document.getElementById("fileNameInput");
   const fileInput = document.getElementById("fileInput");
   const loadingElement = document.getElementById("loading");
+  const status = document.getElementById("status");
   const file = fileInput.files[0];
 
   if (!file) {
-      alert("Seleziona un file per caricarlo!");
+      status.textContent = "Seleziona un file per caricarlo.";
+      //alert("Seleziona un file per caricarlo!");
       return;
   }
 
@@ -79,25 +81,30 @@ async function uploadFile() {
           const result = await response.json();
           
           if (result.success) {
-              alert("File caricato con successo!");
+              //alert("File caricato con successo!");
+              status.textContent = "File caricato con successo!";
               window.location.reload(true);
           } else {
               loadingElement.style.display = "none";
-              alert("Errore nel caricare il file.");
+              status.textContent = "Errore nel caricare il file.";
+              //alert("Errore nel caricare il file.");
           }
       } catch (error) {
           loadingElement.style.display = "none";
           console.error("Errore:", error);
-          alert("Si è verificato un errore durante il caricamento del file.");
+          //alert("Si è verificato un errore durante il caricamento del file.");
+          status.textContent = "Si è verificato un errore durante il caricamento del file.";
       }
   } else {
       loadingElement.style.display = "none";
-      alert("Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!");
+      //alert("Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!");
+      status.textContent = "Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!";
   }
 }
 
 // Controllo del file caricato
 async function fileCheck(file) {
+  var status = document.getElementById("status");
   const formData = new FormData();
   formData.append("file", file);
 
@@ -113,11 +120,11 @@ async function fileCheck(file) {
     return data.trim() === "ok";
   } catch (error) {
     console.error("Errore:", error);
-    alert("Si è verificato un errore durante il controllo dell'immagine.");
+    //alert("Si è verificato un errore durante il controllo dell'immagine.");
+    status.textContent = "Si è verificato un errore durante il controllo dell'immagine.";
     return false;
   }
 }
-
 
 function openFileViewer(fileId, fileName) {
   const modal = document.getElementById("fileViewerModal");

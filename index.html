@@ -41,7 +41,7 @@
 
         <button class="close-btnHome" onclick="toggleUploadContainer()">Carica file</button>
         <!---->
-        <div class="upload-container" id="uploadContainer" style="display: none;">
+        <div class="upload-container" id="uploadContainer" style="display: block;">
             <div class="upload-overlay"></div>
             <div class="upload-content animate__animated animate__fadeInDown">
                 <div class="upload-header">
@@ -65,12 +65,12 @@
                             <button type="button" class="file_btn" id="file_btn" onclick="uploadFile()"
                                 style="display: none;">Carica</button>
                         </div>
+                        <div id="loading" class="loading_text">
+                            <img src="assets/logo.png" alt="Loading logo" />
+                        </div>
+                        <div id="status" class="uploading_result"></div>
                     </div>
                 </form>
-                <div id="loading" class="loading_text">
-                    <img src="assets/logo.png" alt="Loading logo" />
-                </div>
-                <div id="status" class="uploading_result"></div>
             </div>
         </div>
 

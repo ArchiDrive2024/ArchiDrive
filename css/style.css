@@ -296,7 +296,6 @@ h2 {
 
 .loading_text img {
     width: 60px;
-    margin-left: 14px;
     animation: rotate infinite ease-in-out 1.6s;
 }
 
