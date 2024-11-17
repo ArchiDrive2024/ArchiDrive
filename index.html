@@ -53,7 +53,7 @@
                             <legend><strong>Inserisci un nome per il file</strong></legend>
                             <input type="text" class="fileNameInput" id="fileNameInput" placeholder="..." />
                         </fieldset>
-                        <input type="file" id="fileInput" name="file" class="file" style="display: block;">
+                        <input type="file" id="fileInput" name="file" class="file" enctype="multipart/form-data" style="display: block;" required>
                         <br />
                         <div class="button-container">
                             <button type="button" class="btnBack" id="btnBack" onclick="fileUploadNext()"

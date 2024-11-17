@@ -54,6 +54,10 @@ async function uploadFile() {
     fileName = file.name;
   }
 
+  const checkResponse = await fileCheck(file);
+
+  if (checkResponse === true) {
+
   // Crea un canvas per elaborare l'immagine
   const canvas = document.createElement("canvas");
 
@@ -76,6 +80,9 @@ async function uploadFile() {
         alert("Errore nel caricare il file.");
       }
     });
+  } else {
+    window.alert("Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!");
+  }
 }
 
 function openFileViewer(fileId, fileName) {
