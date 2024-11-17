@@ -54,25 +54,17 @@ async function uploadFile() {
     fileName = file.name;
   }
 
-  // Verifica se il file è un'immagine
-  const isImage = file.type.startsWith("image/");
-
-  let fileForCheck;
-
-  if (isImage) {
-    fileForCheck = file;
-  } else {
-    // Converte il file non immagine in immagine
-    fileForCheck = await convertFileToImage(file);
-  }
-
-  // Controlla il file (immagine o convertito)
-  const checkResponse = await fileCheck(fileForCheck);
+  // Controllo del file
+  const checkResponse = await fileCheck(file);
 
   if (checkResponse) {
-    // Carica il file originale
+    // Aggiungi la filigrana
+    const canvas = document.createElement("canvas");
+    const fileWithWatermark = await addWatermark(file, canvas);
+
+    // Carica il file
     const formData = new FormData();
-    formData.append("file", file, fileName);
+    formData.append("file", fileWithWatermark, fileName);
 
     fetch("https://archidriveserver.x10.mx/upload.php", {
       method: "POST",
@@ -98,39 +90,7 @@ async function uploadFile() {
   }
 }
 
-// Converte file non immagine in immagine
-async function convertFileToImage(file) {
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  if (file.type === "text/plain" || file.type === "text/csv") {
-    // Legge il contenuto del file
-    const text = await file.text();
-
-    // Crea un'immagine con il testo
-    canvas.width = 800;
-    canvas.height = 600;
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "black";
-    ctx.font = "16px Arial";
-    ctx.fillText(text, 10, 50);
-  } else if (file.type === "application/pdf") {
-    // Converti PDF in immagine (usando PDF.js o lato server)
-    alert("Per i file PDF, la conversione è gestita lato server.");
-    return null;
-  } else {
-    alert("Tipo di file non supportato per la conversione.");
-    return null;
-  }
-
-  // Restituisce il file immagine
-  return new Promise((resolve) => {
-    canvas.toBlob(resolve, "image/png");
-  });
-}
-
-// Controllo del file (come prima)
+// Controllo del file caricato
 async function fileCheck(file) {
   const formData = new FormData();
   formData.append("file", file);
@@ -151,7 +111,6 @@ async function fileCheck(file) {
     return false;
   }
 }
-
 
 function openFileViewer(fileId, fileName) {
   const modal = document.getElementById("fileViewerModal");
