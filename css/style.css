@@ -667,3 +667,73 @@ h2 {
         opacity: 1;
     }
 }
+
+.upload-progress-container {
+    width: 80%;
+    max-width: 500px;
+    margin: 20px auto;
+    text-align: center;
+  }
+  
+  .progress-status {
+    margin-bottom: 10px;
+    color: var(--text-primary);
+  }
+  
+  .progress-percentage {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .progress-text {
+    color: var(--text-secondary);
+    font-size: 16px;
+  }
+  
+  .progress-bar {
+    height: 10px;
+    background: var(--border-color);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+    background-size: 200% 200%;
+    animation: gradient 6s ease infinite;
+    transition: width 0.3s ease;
+    border-radius: 5px;
+    position: relative;
+  }
+  
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
+    animation: shine 1.5s linear infinite;
+  }
+  
+  @keyframes shine {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }

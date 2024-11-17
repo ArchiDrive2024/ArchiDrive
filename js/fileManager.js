@@ -43,6 +43,9 @@ async function uploadFile() {
   const fileNameInput = document.getElementById("fileNameInput");
   const fileInput = document.getElementById("fileInput");
   const file = fileInput.files[0];
+  const progressContainer = document.querySelector('.upload-progress-container');
+  const progressBar = document.querySelector('.progress-bar-fill');
+  const progressText = document.querySelector('.progress-percentage');
 
   if (!file) {
     alert("Seleziona un file per caricarlo!");
@@ -58,6 +61,9 @@ async function uploadFile() {
   const checkResponse = await fileCheck(file);
 
   if (checkResponse) {
+    // Mostra la progress bar
+    progressContainer.style.display = 'block';
+    
     // Aggiungi la filigrana
     const canvas = document.createElement("canvas");
     const fileWithWatermark = await addWatermark(file, canvas);
@@ -66,23 +72,39 @@ async function uploadFile() {
     const formData = new FormData();
     formData.append("file", fileWithWatermark, fileName);
 
-    fetch("https://archidriveserver.x10.mx/upload.php", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          alert("File caricato con successo!");
-          window.location.reload(true);
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://archidriveserver.x10.mx/upload.php", true);
+
+    xhr.upload.onprogress = function(e) {
+      if (e.lengthComputable) {
+        const percentComplete = Math.round((e.loaded / e.total) * 100);
+        progressBar.style.width = percentComplete + '%';
+        progressText.textContent = percentComplete + '%';
+      }
+    };
+
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        if (response.success) {
+          progressBar.style.width = '100%';
+          progressText.textContent = '100%';
+          setTimeout(() => {
+            alert("File caricato con successo!");
+            window.location.reload(true);
+          }, 500);
         } else {
           alert("Errore nel caricare il file.");
         }
-      })
-      .catch((error) => {
-        console.error("Errore:", error);
-        alert("Si è verificato un errore durante il caricamento del file.");
-      });
+      }
+    };
+
+    xhr.onerror = function() {
+      console.error("Errore:", xhr.statusText);
+      alert("Si è verificato un errore durante il caricamento del file.");
+    };
+
+    xhr.send(formData);
   } else {
     alert(
       "Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!"
