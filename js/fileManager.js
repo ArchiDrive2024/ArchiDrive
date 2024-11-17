@@ -42,50 +42,82 @@ function displayFiles(files) {
 async function uploadFile() {
   const fileNameInput = document.getElementById("fileNameInput");
   const fileInput = document.getElementById("fileInput");
+  const loadingElement = document.getElementById("loading");
   const file = fileInput.files[0];
 
   if (!file) {
-    alert("Seleziona un file per caricarlo!");
-    return;
+      alert("Seleziona un file per caricarlo!");
+      return;
   }
 
   let fileName = fileNameInput.value.trim();
   if (fileName === "") {
-    fileName = file.name;
+      fileName = file.name;
   }
 
+  // Show loading spinner
+  loadingElement.style.display = "flex";
+
+  // File check
   const checkResponse = await fileCheck(file);
 
-  console.log(checkResponse);
-
   if (checkResponse) {
+      // Add watermark
+      const canvas = document.createElement("canvas");
+      const fileWithWatermark = await addWatermark(file, canvas);
 
-  // Crea un canvas per elaborare l'immagine
-  const canvas = document.createElement("canvas");
+      // Create FormData and append file
+      const formData = new FormData();
+      formData.append("file", fileWithWatermark, fileName);
 
-  // Aggiungi la filigrana al file
-  const fileWithWatermark = await addWatermark(file, canvas);
+      try {
+          const response = await fetch("https://archidriveserver.x10.mx/upload.php", {
+              method: "POST",
+              body: formData,
+          });
 
-  const formData = new FormData();
-  formData.append("file", fileWithWatermark, fileName);
-
-  fetch("https://archidriveserver.x10.mx/upload.php", {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        alert("File caricato con successo!");
-        window.location.reload(true);
-      } else {
-        alert("Errore nel caricare il file.");
+          const result = await response.json();
+          
+          if (result.success) {
+              alert("File caricato con successo!");
+              window.location.reload(true);
+          } else {
+              loadingElement.style.display = "none";
+              alert("Errore nel caricare il file.");
+          }
+      } catch (error) {
+          loadingElement.style.display = "none";
+          console.error("Errore:", error);
+          alert("Si è verificato un errore durante il caricamento del file.");
       }
-    });
   } else {
-    window.alert("Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!");
+      loadingElement.style.display = "none";
+      alert("Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!");
   }
 }
+
+// Controllo del file caricato
+async function fileCheck(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const response = await fetch("https://archidriveserver.x10.mx/check_file.php", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.text();
+    console.log(data);
+
+    return data.trim() === "ok";
+  } catch (error) {
+    console.error("Errore:", error);
+    alert("Si è verificato un errore durante il controllo dell'immagine.");
+    return false;
+  }
+}
+
 
 function openFileViewer(fileId, fileName) {
   const modal = document.getElementById("fileViewerModal");
