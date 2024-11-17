@@ -29,7 +29,9 @@ function displayFiles(files) {
             <div class="file-icon">📄</div>
             <div class="file-details">
                 <div class="file-name">${file.name}</div>
-                <div class="file-info">Modificato: ${file.modifiedTime}</div>
+                <div class="file-info">Modificato: ${new Date(
+                  file.modifiedTime
+                ).toLocaleDateString()}</div>
             </div>
         `;
     listItem.onclick = () => openFileViewer(file.id, file.name);
@@ -43,6 +45,8 @@ async function uploadFile() {
   const loadingElement = document.getElementById("loading");
   const status = document.getElementById("status");
   const file = fileInput.files[0];
+
+  uploadStatus.classList.remove("success", "error");
 
   if (!file) {
       status.textContent = "Seleziona un file per caricarlo.";
@@ -81,7 +85,6 @@ async function uploadFile() {
           if (result.success) {
               //alert("File caricato con successo!");
               status.textContent = "File caricato con successo!";
-              status.classList.remove("error");
               status.classList.add("success");
               window.location.reload(true);
           } else {
