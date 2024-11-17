@@ -29,9 +29,7 @@ function displayFiles(files) {
             <div class="file-icon">📄</div>
             <div class="file-details">
                 <div class="file-name">${file.name}</div>
-                <div class="file-info">Modificato: ${new Date(
-                  file.modifiedTime
-                ).toLocaleDateString()}</div>
+                <div class="file-info">Modificato: ${file.modifiedTime}</div>
             </div>
         `;
     listItem.onclick = () => openFileViewer(file.id, file.name);
