@@ -236,7 +236,7 @@ h2 {
 .close-btn:hover,
 .file_btnNext:hover,
 .btnBack:hover {
-    transform: translateY(-3px) scale(1.05);
+    transform: translateY(-3px) scale(1.04);
     box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
 }
 
@@ -392,6 +392,7 @@ h2 {
 }
 
 .search-container {
+    width: 94%;
     margin-bottom: 20px;
     position: relative;
 }
