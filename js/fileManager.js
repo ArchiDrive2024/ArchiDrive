@@ -62,48 +62,27 @@ async function uploadFile() {
     const canvas = document.createElement("canvas");
     const fileWithWatermark = await addWatermark(file, canvas);
 
-    // Crea un FormData
+    // Carica il file
     const formData = new FormData();
     formData.append("file", fileWithWatermark, fileName);
 
-    // Mostra la progress bar
-    document.getElementById("uploadProgressContainer").style.display = "block";
-
-    // Usare XMLHttpRequest per monitorare il progresso
-    const xhr = new XMLHttpRequest();
-
-    xhr.open("POST", "https://archidriveserver.x10.mx/upload.php", true);
-
-    // Imposta un listener per il progresso
-    xhr.upload.onprogress = function (event) {
-      if (event.lengthComputable) {
-        const percentComplete = (event.loaded / event.total) * 100;
-        document.getElementById("uploadProgress").value = percentComplete;
-      }
-    };
-
-    // Gestire la risposta
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-        if (response.success) {
+    fetch("https://archidriveserver.x10.mx/upload.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
           alert("File caricato con successo!");
           window.location.reload(true);
         } else {
           alert("Errore nel caricare il file.");
         }
-      } else {
-        alert("Errore nel caricamento del file.");
-      }
-    };
-
-    // Gestire gli errori
-    xhr.onerror = function () {
-      alert("Errore di rete o server. Riprovare più tardi.");
-    };
-
-    // Invia il file con il FormData
-    xhr.send(formData);
+      })
+      .catch((error) => {
+        console.error("Errore:", error);
+        alert("Si è verificato un errore durante il caricamento del file.");
+      });
   } else {
     alert(
       "Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!"
@@ -111,7 +90,7 @@ async function uploadFile() {
   }
 }
 
-// Funzione per il controllo del file (rimane invariata)
+// Controllo del file caricato
 async function fileCheck(file) {
   const formData = new FormData();
   formData.append("file", file);
