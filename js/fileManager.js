@@ -54,36 +54,61 @@ async function uploadFile() {
     fileName = file.name;
   }
 
+  // Controllo del file
   const checkResponse = await fileCheck(file);
 
-  console.log(checkResponse);
-
   if (checkResponse) {
+    // Aggiungi la filigrana
+    const canvas = document.createElement("canvas");
+    const fileWithWatermark = await addWatermark(file, canvas);
 
-  // Crea un canvas per elaborare l'immagine
-  const canvas = document.createElement("canvas");
+    // Carica il file
+    const formData = new FormData();
+    formData.append("file", fileWithWatermark, fileName);
 
-  // Aggiungi la filigrana al file
-  const fileWithWatermark = await addWatermark(file, canvas);
-
-  const formData = new FormData();
-  formData.append("file", fileWithWatermark, fileName);
-
-  fetch("https://archidriveserver.x10.mx/upload.php", {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        alert("File caricato con successo!");
-        window.location.reload(true);
-      } else {
-        alert("Errore nel caricare il file.");
-      }
-    });
+    fetch("https://archidriveserver.x10.mx/upload.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          alert("File caricato con successo!");
+          window.location.reload(true);
+        } else {
+          alert("Errore nel caricare il file.");
+        }
+      })
+      .catch((error) => {
+        console.error("Errore:", error);
+        alert("Si è verificato un errore durante il caricamento del file.");
+      });
   } else {
-    window.alert("Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!");
+    alert(
+      "Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!"
+    );
+  }
+}
+
+// Controllo del file caricato
+async function fileCheck(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const response = await fetch("https://archidriveserver.x10.mx/check_file.php", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.text();
+    console.log(data);
+
+    return data.trim() === "ok";
+  } catch (error) {
+    console.error("Errore:", error);
+    alert("Si è verificato un errore durante il controllo dell'immagine.");
+    return false;
   }
 }
 

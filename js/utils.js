@@ -91,27 +91,3 @@ async function addWatermark(file, canvas) {
     return file;
   }
 }
-
-// Controllo del file caricato
-async function fileCheck(file) {
-
-  fetch('https://archidriveserver.x10.mx/check_file.php', {
-      method: 'POST',
-      body: file
-  })
-      .then(response => response.text())
-      .then(data => {
-          console.log(data);
-          if (data === "ok") {
-            console.log(true);
-            return true;
-          } else {
-            console.log(false);
-            return false;
-          }
-      })
-      .catch(error => {
-          console.error('Errore:', error);
-          window.alert('Si è verificato un errore durante il controllo dell\'immagine.');
-      });
-}
