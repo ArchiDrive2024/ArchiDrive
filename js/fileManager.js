@@ -83,6 +83,7 @@ async function uploadFile() {
           if (result.success) {
               //alert("File caricato con successo!");
               status.textContent = "File caricato con successo!";
+              status.classList.remove("error");
               status.classList.add("success");
               window.location.reload(true);
           } else {
