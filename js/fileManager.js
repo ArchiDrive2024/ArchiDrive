@@ -54,18 +54,20 @@ async function uploadFile() {
     fileName = file.name;
   }
 
-  const fileType = file.type;
+  // Verifica se il file è un'immagine
+  const isImage = file.type.startsWith("image/");
 
-  // Converte il file in immagine se necessario
-  const imageFile = await convertToImageIfNeeded(file, fileType);
+  let fileForCheck;
 
-  if (!imageFile) {
-    alert("Errore durante la conversione del file in immagine.");
-    return;
+  if (isImage) {
+    fileForCheck = file;
+  } else {
+    // Converte il file non immagine in immagine
+    fileForCheck = await convertFileToImage(file);
   }
 
-  // Controllo sull'immagine
-  const checkResponse = await fileCheck(imageFile);
+  // Controlla il file (immagine o convertito)
+  const checkResponse = await fileCheck(fileForCheck);
 
   if (checkResponse) {
     // Carica il file originale
@@ -97,45 +99,38 @@ async function uploadFile() {
 }
 
 // Converte file non immagine in immagine
-async function convertToImageIfNeeded(file, fileType) {
-  if (fileType.startsWith("image/")) {
-    // Il file è già un'immagine
-    return file;
-  }
-
+async function convertFileToImage(file) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
 
-  if (fileType === "text/plain") {
-    // Renderizza il testo su un canvas
+  if (file.type === "text/plain" || file.type === "text/csv") {
+    // Legge il contenuto del file
     const text = await file.text();
+
+    // Crea un'immagine con il testo
     canvas.width = 800;
-    canvas.height = 400;
-    ctx.font = "16px Arial";
+    canvas.height = 600;
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
+    ctx.font = "16px Arial";
     ctx.fillText(text, 10, 50);
-  } else if (fileType === "application/pdf") {
-    // Usa librerie come PDF.js per convertire PDF in immagine
-    const pdf = await pdfjsLib.getDocument(URL.createObjectURL(file)).promise;
-    const page = await pdf.getPage(1);
-    const viewport = page.getViewport({ scale: 2 });
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    await page.render({ canvasContext: ctx, viewport }).promise;
+  } else if (file.type === "application/pdf") {
+    // Converti PDF in immagine (usando PDF.js o lato server)
+    alert("Per i file PDF, la conversione è gestita lato server.");
+    return null;
   } else {
-    alert("Formato file non supportato per la conversione in immagine.");
+    alert("Tipo di file non supportato per la conversione.");
     return null;
   }
 
-  // Converte il canvas in file immagine
+  // Restituisce il file immagine
   return new Promise((resolve) => {
-    canvas.toBlob((blob) => {
-      resolve(new File([blob], "converted-image.png", { type: "image/png" }));
-    }, "image/png");
+    canvas.toBlob(resolve, "image/png");
   });
 }
 
-// Controllo del file immagine
+// Controllo del file (come prima)
 async function fileCheck(file) {
   const formData = new FormData();
   formData.append("file", file);
@@ -156,6 +151,7 @@ async function fileCheck(file) {
     return false;
   }
 }
+
 
 function openFileViewer(fileId, fileName) {
   const modal = document.getElementById("fileViewerModal");
