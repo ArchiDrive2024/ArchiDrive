@@ -46,7 +46,8 @@ async function uploadFile() {
   const status = document.getElementById("status");
   const file = fileInput.files[0];
 
-  uploadStatus.classList.remove("success", "error");
+  status.classList.remove("success", "error");
+  status.textContent = "";
 
   if (!file) {
       status.textContent = "Seleziona un file per caricarlo.";
