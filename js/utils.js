@@ -101,9 +101,12 @@ async function fileCheck(file) {
   })
       .then(response => response.text())
       .then(data => {
+          console.log(data);
           if (data === "ok") {
+            console.log(true);
             return true;
           } else {
+            console.log(false);
             return false;
           }
       })
