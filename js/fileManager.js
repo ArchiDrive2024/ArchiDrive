@@ -62,42 +62,47 @@ async function uploadFile() {
     const canvas = document.createElement("canvas");
     const fileWithWatermark = await addWatermark(file, canvas);
 
-    // Mostra la progress bar
-    document.getElementById("progress-container").style.display = "block";
-
-    // Carica il file con la progress bar
+    // Crea un FormData
     const formData = new FormData();
     formData.append("file", fileWithWatermark, fileName);
 
+    // Mostra la progress bar
+    document.getElementById("uploadProgressContainer").style.display = "block";
+
+    // Usare XMLHttpRequest per monitorare il progresso
     const xhr = new XMLHttpRequest();
+
     xhr.open("POST", "https://archidriveserver.x10.mx/upload.php", true);
 
-    // Imposta l'evento per tracciare il progresso
-    xhr.upload.addEventListener("progress", function (e) {
-      if (e.lengthComputable) {
-        const percent = (e.loaded / e.total) * 100;
-        document.getElementById("progress-bar").style.width = percent + "%";
+    // Imposta un listener per il progresso
+    xhr.upload.onprogress = function (event) {
+      if (event.lengthComputable) {
+        const percentComplete = (event.loaded / event.total) * 100;
+        document.getElementById("uploadProgress").value = percentComplete;
       }
-    });
+    };
 
+    // Gestire la risposta
     xhr.onload = function () {
       if (xhr.status === 200) {
-        const data = JSON.parse(xhr.responseText);
-        if (data.success) {
+        const response = JSON.parse(xhr.responseText);
+        if (response.success) {
           alert("File caricato con successo!");
           window.location.reload(true);
         } else {
           alert("Errore nel caricare il file.");
         }
       } else {
-        alert("Si è verificato un errore nel caricamento del file.");
+        alert("Errore nel caricamento del file.");
       }
     };
 
+    // Gestire gli errori
     xhr.onerror = function () {
-      alert("Errore nel caricamento del file.");
+      alert("Errore di rete o server. Riprovare più tardi.");
     };
 
+    // Invia il file con il FormData
     xhr.send(formData);
   } else {
     alert(
@@ -106,7 +111,7 @@ async function uploadFile() {
   }
 }
 
-// Controllo del file caricato
+// Funzione per il controllo del file (rimane invariata)
 async function fileCheck(file) {
   const formData = new FormData();
   formData.append("file", file);
