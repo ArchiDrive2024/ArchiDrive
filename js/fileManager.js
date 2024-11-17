@@ -29,7 +29,7 @@ function displayFiles(files) {
             <div class="file-icon">📄</div>
             <div class="file-details">
                 <div class="file-name">${file.name}</div>
-                <div class="file-info">Modificato: ${new Date(
+                <div class="file-info">Caricato: ${new Date(
                   file.modifiedTime
                 ).toLocaleDateString()}</div>
             </div>
