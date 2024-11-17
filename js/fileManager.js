@@ -74,68 +74,59 @@ async function uploadFile() {
       progressFill.style.width = '0%';
       progressText.textContent = '0%';
 
-      try {
-          const response = await fetch("https://archidriveserver.x10.mx/upload.php", {
-              method: "POST",
-              body: formData,
+      // Create XMLHttpRequest
+      return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+
+          xhr.upload.addEventListener('progress', (event) => {
+              if (event.lengthComputable) {
+                  const percentComplete = (event.loaded / event.total) * 100;
+                  progressFill.style.width = percentComplete + '%';
+                  progressText.textContent = Math.round(percentComplete) + '%';
+              }
           });
 
-          const reader = response.body.getReader();
-          const contentLength = +response.headers.get('Content-Length');
-
-          let receivedLength = 0;
-          const chunks = [];
-
-          while (true) {
-              const { done, value } = await reader.read();
-
-              if (done) {
-                  break;
+          xhr.addEventListener('load', function() {
+              progressContainer.style.display = 'none';
+              if (xhr.status === 200) {
+                  try {
+                      const response = JSON.parse(xhr.responseText);
+                      if (response.success) {
+                          alert("File caricato con successo!");
+                          window.location.reload(true);
+                      } else {
+                          alert("Errore nel caricare il file.");
+                      }
+                  } catch (e) {
+                      alert("Errore nella risposta del server.");
+                  }
+              } else {
+                  alert("Errore nel caricamento del file.");
               }
+          });
 
-              chunks.push(value);
-              receivedLength += value.length;
+          xhr.addEventListener('error', function() {
+              progressContainer.style.display = 'none';
+              alert("Si è verificato un errore durante il caricamento del file.");
+              reject(new Error('Upload failed'));
+          });
 
-              // Calculate and update progress
-              const progress = (receivedLength / contentLength) * 100;
-              progressFill.style.width = `${progress}%`;
-              progressText.textContent = `${Math.round(progress)}%`;
-          }
+          xhr.addEventListener('abort', function() {
+              progressContainer.style.display = 'none';
+              alert("Upload annullato.");
+              reject(new Error('Upload aborted'));
+          });
 
-          // Concatenate chunks into single Uint8Array
-          const chunksAll = new Uint8Array(receivedLength);
-          let position = 0;
-          for (const chunk of chunks) {
-              chunksAll.set(chunk, position);
-              position += chunk.length;
-          }
-
-          // Convert to text and parse JSON
-          const result = JSON.parse(new TextDecoder("utf-8").decode(chunksAll));
-
-          // Hide progress container
-          progressContainer.style.display = 'none';
-
-          if (result.success) {
-              alert("File caricato con successo!");
-              window.location.reload(true);
-          } else {
-              alert("Errore nel caricare il file.");
-          }
-
-      } catch (error) {
-          // Hide progress container in case of error
-          progressContainer.style.display = 'none';
-          console.error("Errore:", error);
-          alert("Si è verificato un errore durante il caricamento del file.");
-      }
+          xhr.open('POST', 'https://archidriveserver.x10.mx/upload.php', true);
+          xhr.send(formData);
+      });
 
   } else {
       alert("Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!");
   }
 }
 
-// Helper function for file check (kept as is)
+// Helper function for file check (unchanged)
 async function fileCheck(file) {
   const formData = new FormData();
   formData.append("file", file);
