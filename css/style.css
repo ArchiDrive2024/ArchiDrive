@@ -1,6 +1,4 @@
-/* TEMA E VARIABILI */
 :root {
-    /* Tema chiaro di default */
     --primary-color: #4f46e5;
     --background: #ffffff;
     --card-bg: #f8fafc;
@@ -11,12 +9,10 @@
     --success: #08943b;
     --error: #ef4444;
 
-    /* Animazione del gradiente di sfondo */
     --gradient-start: #005894;
     --gradient-end: #1900ff;
 }
 
-/* Tema scuro */
 [data-theme="dark"] {
     --primary-color: #818cf8;
     --background: #0f172a;
@@ -27,7 +23,6 @@
     --hover-color: #1e293b;
 }
 
-/* ANIMAZIONI */
 @keyframes gradient {
     0% {
         background-position: 0% 50%;
@@ -92,7 +87,6 @@
     }
 }
 
-/* STILI BASE */
 body {
     font-family: 'Titillium Web', sans-serif;
     background: var(--background);
@@ -103,7 +97,6 @@ body {
     transition: all 0.3s ease;
 }
 
-/* TEMA SWITCHER */
 .theme-switch {
     position: fixed;
     top: 20px;
@@ -124,7 +117,6 @@ body {
     transform: scale(1.1);
 }
 
-/* CONTAINER PRINCIPALE */
 .container {
     max-width: 1200px;
     margin: 40px auto;
@@ -150,7 +142,6 @@ body {
     box-shadow: 0 12px 40px rgba(31, 38, 135, 0.25);
 }
 
-/* TITOLI CON GRADIENTE ANIMATO */
 h2 {
     font-family: 'Kanit', sans-serif;
     font-size: 28px;
@@ -168,7 +159,6 @@ h2 {
     border-bottom: 3px solid var(--border-color);
 }
 
-/* FORM DI UPLOAD ANIMATO */
 .uploadForm {
     display: flex;
     gap: 20px;
@@ -212,7 +202,6 @@ h2 {
     box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
 }
 
-/* PULSANTI SUPER ANIMATI */
 .file_btn {
     width: 100%;
     background: linear-gradient(45deg,
@@ -265,7 +254,6 @@ h2 {
     }
 }
 
-/* LISTA FILE ANIMATA */
 .file_list {
     border: 2px solid var(--border-color);
     border-radius: 16px;
@@ -466,7 +454,6 @@ h2 {
     border-radius: 4px;
 }
 
-/* Animazione per i risultati della ricerca */
 @keyframes fadeIn {
     from {
         opacity: 0;

@@ -5,7 +5,6 @@ async function addWatermark(file, canvas) {
       const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
       const pages = pdfDoc.getPages();
 
-      // Aggiungi la filigrana a ogni pagina del pdf
       pages.forEach((page) => {
         const { width, height } = page.getSize();
         page.drawText("I.S.S. ARCHIMEDE (BG)      I.S.S. ARCHIMEDE (BG)", {
@@ -34,13 +33,10 @@ async function addWatermark(file, canvas) {
           canvas.width = img.width;
           canvas.height = img.height;
 
-          // Prima disegna l'immagine
           ctx.drawImage(img, 0, 0);
 
-          // Salva lo stato corrente del contesto
           ctx.save();
 
-          // Configura e applica la filigrana
           const K = 40;
           const fontValue = `${
             (img.width * img.height * 250) / 9000000 + K
@@ -49,23 +45,19 @@ async function addWatermark(file, canvas) {
 
           const angleInRadians = -40 * (Math.PI / 180);
 
-          // Sposta il punto di origine al centro dell'immagine
           ctx.translate(canvas.width / 2, canvas.height / 2);
 
-          // Applica la rotazione
           ctx.rotate(angleInRadians);
 
           ctx.fillStyle = "rgba(0, 0, 139, 0.2)";
           ctx.textAlign = "center";
 
-          // Disegna il testo centrato
           ctx.fillText(
             "I.S.S. ARCHIMEDE (BG)      I.S.S. ARCHIMEDE (BG)",
             0,
             0
           );
 
-          // Ripristina lo stato salvato
           ctx.restore();
 
           canvas.toBlob((blob) => {
@@ -87,7 +79,6 @@ async function addWatermark(file, canvas) {
       img.src = URL.createObjectURL(file);
     });
   } else {
-    // Per altri tipi di file, restituisci il file originale senza modifiche
     return file;
   }
 }

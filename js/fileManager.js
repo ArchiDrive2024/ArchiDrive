@@ -61,18 +61,14 @@ async function uploadFile() {
     return 0;
   }
 
-  // Show loading spinner
   loadingElement.style.display = "flex";
 
-  // File check
   const checkResponse = await fileCheck(file);
 
   if (checkResponse) {
-      // Add watermark
       const canvas = document.createElement("canvas");
       const fileWithWatermark = await addWatermark(file, canvas);
 
-      // Create FormData and append file
       const formData = new FormData();
       formData.append("file", fileWithWatermark, fileName);
 
@@ -110,7 +106,6 @@ async function uploadFile() {
     }
 }
 
-// Controllo del file caricato
 async function fileCheck(file) {
   var status = document.getElementById("status");
   const formData = new FormData();
