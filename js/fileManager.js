@@ -43,108 +43,47 @@ async function uploadFile() {
   const fileNameInput = document.getElementById("fileNameInput");
   const fileInput = document.getElementById("fileInput");
   const file = fileInput.files[0];
-  const progressContainer = document.querySelector('.progress-container');
-  const progressFill = document.querySelector('.progress-fill');
-  const progressText = document.querySelector('.progress-text');
 
   if (!file) {
-      alert("Seleziona un file per caricarlo!");
-      return;
+    alert("Seleziona un file per caricarlo!");
+    return;
   }
 
   let fileName = fileNameInput.value.trim();
   if (fileName === "") {
-      fileName = file.name;
+    fileName = file.name;
   }
 
-  // File check
   const checkResponse = await fileCheck(file);
 
+  console.log(checkResponse);
+
   if (checkResponse) {
-      // Add watermark
-      const canvas = document.createElement("canvas");
-      const fileWithWatermark = await addWatermark(file, canvas);
 
-      // Create FormData and append file
-      const formData = new FormData();
-      formData.append("file", fileWithWatermark, fileName);
+  // Crea un canvas per elaborare l'immagine
+  const canvas = document.createElement("canvas");
 
-      // Show progress container
-      progressContainer.style.display = 'block';
-      progressFill.style.width = '0%';
-      progressText.textContent = '0%';
+  // Aggiungi la filigrana al file
+  const fileWithWatermark = await addWatermark(file, canvas);
 
-      // Create XMLHttpRequest
-      return new Promise((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-
-          xhr.upload.addEventListener('progress', (event) => {
-              if (event.lengthComputable) {
-                  const percentComplete = (event.loaded / event.total) * 100;
-                  progressFill.style.width = percentComplete + '%';
-                  progressText.textContent = Math.round(percentComplete) + '%';
-              }
-          });
-
-          xhr.addEventListener('load', function() {
-              progressContainer.style.display = 'none';
-              if (xhr.status === 200) {
-                  try {
-                      const response = JSON.parse(xhr.responseText);
-                      if (response.success) {
-                          alert("File caricato con successo!");
-                          window.location.reload(true);
-                      } else {
-                          alert("Errore nel caricare il file.");
-                      }
-                  } catch (e) {
-                      alert("Errore nella risposta del server.");
-                  }
-              } else {
-                  alert("Errore nel caricamento del file.");
-              }
-          });
-
-          xhr.addEventListener('error', function() {
-              progressContainer.style.display = 'none';
-              alert("Si è verificato un errore durante il caricamento del file.");
-              reject(new Error('Upload failed'));
-          });
-
-          xhr.addEventListener('abort', function() {
-              progressContainer.style.display = 'none';
-              alert("Upload annullato.");
-              reject(new Error('Upload aborted'));
-          });
-
-          xhr.open('POST', 'https://archidriveserver.x10.mx/upload.php', true);
-          xhr.send(formData);
-      });
-
-  } else {
-      alert("Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!");
-  }
-}
-
-// Helper function for file check (unchanged)
-async function fileCheck(file) {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("file", fileWithWatermark, fileName);
 
-  try {
-      const response = await fetch("https://archidriveserver.x10.mx/check_file.php", {
-          method: "POST",
-          body: formData,
-      });
-
-      const data = await response.text();
-      console.log(data);
-
-      return data.trim() === "ok";
-  } catch (error) {
-      console.error("Errore:", error);
-      alert("Si è verificato un errore durante il controllo dell'immagine.");
-      return false;
+  fetch("https://archidriveserver.x10.mx/upload.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        alert("File caricato con successo!");
+        window.location.reload(true);
+      } else {
+        alert("Errore nel caricare il file.");
+      }
+    });
+  } else {
+    window.alert("Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!");
   }
 }
 
