@@ -52,10 +52,16 @@ async function uploadFile() {
       return;
   }
 
+  var firstChar, lastChar;
+
   let fileName = fileNameInput.value.trim();
-  if (fileName === "") {
-      fileName = file.name;
-  }
+  if (fileName !== "") {
+    firstChar = fileName[0];
+    lastChar = fileName[fileName.length];
+    console.log(firstChar + " " + lastChar);
+  } else {
+    fileName = window.prompt("Inserisci un nome valido");
+  } 
 
   // Show loading spinner
   loadingElement.style.display = "flex";
