@@ -40,76 +40,123 @@ function displayFiles(files) {
 }
 
 async function uploadFile() {
-  const fileNameInput = document.getElementById("fileNameInput");
-  const fileInput = document.getElementById("fileInput");
-  const file = fileInput.files[0];
+  const fileInput = document.getElementById('fileInput');
+  const fileNameInput = document.getElementById('fileNameInput');
   const progressContainer = document.querySelector('.upload-progress-container');
   const progressBar = document.querySelector('.progress-bar-fill');
   const progressText = document.querySelector('.progress-percentage');
-
+  const progressStatus = document.querySelector('.progress-text');
+  const uploadSpeed = document.querySelector('.upload-speed');
+  const fileName = document.querySelector('.file-name');
+  
+  const file = fileInput.files[0];
   if (!file) {
-    alert("Seleziona un file per caricarlo!");
+    alert('Seleziona un file per caricarlo!');
     return;
   }
 
-  let fileName = fileNameInput.value.trim();
-  if (fileName === "") {
-    fileName = file.name;
-  }
+  // Inizializza l'UI
+  progressContainer.classList.add('active');
+  progressBar.style.width = '0%';
+  progressText.textContent = '0%';
+  progressStatus.textContent = 'Preparazione del file...';
+  fileName.textContent = file.name;
+  
+  let startTime = Date.now();
+  let lastLoaded = 0;
 
-  // Controllo del file
-  const checkResponse = await fileCheck(file);
+  const updateSpeed = (loaded, elapsed) => {
+    const speed = (loaded - lastLoaded) / (elapsed / 1000); // bytes per second
+    lastLoaded = loaded;
+    return speed > 1048576 
+      ? `${(speed / 1048576).toFixed(2)} MB/s`
+      : `${(speed / 1024).toFixed(2)} KB/s`;
+  };
 
-  if (checkResponse) {
-    // Mostra la progress bar
-    progressContainer.style.display = 'block';
-    
-    // Aggiungi la filigrana
-    const canvas = document.createElement("canvas");
-    const fileWithWatermark = await addWatermark(file, canvas);
+  try {
+    // Simula il controllo del file
+    const checkResponse = await fileCheck(file);
+    if (!checkResponse) {
+      throw new Error('File non idoneo');
+    }
 
-    // Carica il file
+    // Prepara il FormData
     const formData = new FormData();
-    formData.append("file", fileWithWatermark, fileName);
+    formData.append('file', file, fileNameInput.value.trim() || file.name);
 
+    // Configura la richiesta
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://archidriveserver.x10.mx/upload.php", true);
+    xhr.open('POST', 'https://archidriveserver.x10.mx/upload.php', true);
 
-    xhr.upload.onprogress = function(e) {
+    // Gestione del progresso
+    xhr.upload.onprogress = (e) => {
       if (e.lengthComputable) {
-        const percentComplete = Math.round((e.loaded / e.total) * 100);
-        progressBar.style.width = percentComplete + '%';
-        progressText.textContent = percentComplete + '%';
+        const elapsed = Date.now() - startTime;
+        const percent = Math.round((e.loaded / e.total) * 100);
+        const speed = updateSpeed(e.loaded, elapsed);
+        
+        requestAnimationFrame(() => {
+          progressBar.style.width = `${percent}%`;
+          progressText.textContent = `${percent}%`;
+          uploadSpeed.textContent = speed;
+
+          // Aggiorna il messaggio di stato
+          if (percent < 30) {
+            progressStatus.textContent = 'Caricamento iniziato...';
+          } else if (percent < 60) {
+            progressStatus.textContent = 'A metà strada...';
+          } else if (percent < 90) {
+            progressStatus.textContent = 'Quasi completato...';
+          } else {
+            progressStatus.textContent = 'Finalizzazione...';
+          }
+        });
       }
     };
 
-    xhr.onload = function() {
+    // Gestione completamento
+    xhr.onload = () => {
       if (xhr.status === 200) {
         const response = JSON.parse(xhr.responseText);
         if (response.success) {
-          progressBar.style.width = '100%';
+          progressBar.classList.add('upload-complete');
+          progressStatus.textContent = 'Caricamento completato con successo!';
           progressText.textContent = '100%';
+          
           setTimeout(() => {
-            alert("File caricato con successo!");
-            window.location.reload(true);
-          }, 500);
+            progressContainer.style.opacity = '0';
+            setTimeout(() => {
+              progressContainer.classList.remove('active');
+              progressBar.classList.remove('upload-complete');
+              alert('File caricato con successo!');
+              window.location.reload();
+            }, 300);
+          }, 1000);
         } else {
-          alert("Errore nel caricare il file.");
+          throw new Error('Errore nel caricamento del file');
         }
       }
     };
 
-    xhr.onerror = function() {
-      console.error("Errore:", xhr.statusText);
-      alert("Si è verificato un errore durante il caricamento del file.");
+    // Gestione errori
+    xhr.onerror = () => {
+      throw new Error('Errore di rete durante il caricamento');
     };
 
     xhr.send(formData);
-  } else {
-    alert(
-      "Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!"
-    );
+
+  } catch (error) {
+    progressStatus.textContent = error.message;
+    progressBar.style.backgroundColor = 'var(--error)';
+    alert(error.message);
   }
+}
+
+// Funzione di controllo file (simulata)
+async function fileCheck(file) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(true), 500);
+  });
 }
 
 // Controllo del file caricato

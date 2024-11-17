@@ -668,37 +668,43 @@ h2 {
     }
 }
 
+
+
 .upload-progress-container {
-    width: 80%;
-    max-width: 500px;
-    margin: 20px auto;
-    text-align: center;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .upload-progress-container.active {
+    display: block;
+    opacity: 1;
   }
   
   .progress-status {
-    margin-bottom: 10px;
-    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 1rem;
   }
   
   .progress-percentage {
-    font-size: 24px;
+    font-size: 2rem;
     font-weight: bold;
-    margin-bottom: 5px;
     background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    margin-bottom: 0.5rem;
   }
   
   .progress-text {
     color: var(--text-secondary);
-    font-size: 16px;
+    font-size: 1rem;
   }
   
   .progress-bar {
-    height: 10px;
+    height: 0.75rem;
     background: var(--border-color);
-    border-radius: 5px;
+    border-radius: 1rem;
     overflow: hidden;
     position: relative;
   }
@@ -708,32 +714,57 @@ h2 {
     width: 0%;
     background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
     background-size: 200% 200%;
-    animation: gradient 6s ease infinite;
+    border-radius: 1rem;
     transition: width 0.3s ease;
-    border-radius: 5px;
     position: relative;
+    animation: gradient 6s ease infinite;
   }
   
-  .progress-bar-fill::after {
-    content: '';
+  .progress-bar-shine {
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, 
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
       transparent 0%,
       rgba(255, 255, 255, 0.4) 50%,
       transparent 100%
     );
-    animation: shine 1.5s linear infinite;
+    animation: shine 2s linear infinite;
+  }
+  
+  .upload-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+  
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
   
   @keyframes shine {
-    from {
-      transform: translateX(-100%);
-    }
-    to {
-      transform: translateX(100%);
-    }
+    from { left: -100%; }
+    to { left: 100%; }
+  }
+  
+  .progress-bar-fill.upload-complete {
+    animation: complete-pulse 1s ease infinite;
+  }
+  
+  @keyframes complete-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Tema scuro */
+  [data-theme="dark"] .upload-progress-container {
+    background: var(--card-bg);
   }
