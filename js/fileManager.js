@@ -56,7 +56,9 @@ async function uploadFile() {
 
   const checkResponse = await fileCheck(file);
 
-  if (checkResponse === true) {
+  console.log(checkResponse);
+
+  if (checkResponse) {
 
   // Crea un canvas per elaborare l'immagine
   const canvas = document.createElement("canvas");
