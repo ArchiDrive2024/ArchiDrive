@@ -48,20 +48,18 @@ async function uploadFile() {
 
   if (!file) {
       status.textContent = "Seleziona un file per caricarlo.";
+      status.classList.add("error");
       //alert("Seleziona un file per caricarlo!");
       return;
   }
 
-  var firstChar, lastChar;
-
   let fileName = fileNameInput.value.trim();
-  if (fileName !== "") {
-    firstChar = fileName[0];
-    lastChar = fileName[fileName.length];
-    console.log(firstChar + " " + lastChar);
-  } else {
-    fileName = window.prompt("Inserisci un nome valido");
-  } 
+
+  if(!isFileNameValid(fileName)) {
+    status.textContent = "Inserisci un nome valido! \n\nIl nome non può iniziare o finire con '<', '>' o '\\' e non può contenere un punto";
+    status.classList.add("error");
+    return 0;
+  }
 
   // Show loading spinner
   loadingElement.style.display = "flex";
@@ -89,10 +87,12 @@ async function uploadFile() {
           if (result.success) {
               //alert("File caricato con successo!");
               status.textContent = "File caricato con successo!";
+              status.classList.add("success");
               window.location.reload(true);
           } else {
               loadingElement.style.display = "none";
               status.textContent = "Errore nel caricare il file.";
+              status.classList.add("error");
               //alert("Errore nel caricare il file.");
           }
       } catch (error) {
@@ -100,12 +100,14 @@ async function uploadFile() {
           console.error("Errore:", error);
           //alert("Si è verificato un errore durante il caricamento del file.");
           status.textContent = "Si è verificato un errore durante il caricamento del file.";
+          status.classList.add("error");
       }
   } else {
       loadingElement.style.display = "none";
       //alert("Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!");
       status.textContent = "Stai cercando di caricare un file non idoneo! Assicurati che il file caricato non contenga nudità, droga, violenza o altro materiale offensivo!";
-  }
+      status.classList.add("error");
+    }
 }
 
 // Controllo del file caricato
@@ -128,8 +130,49 @@ async function fileCheck(file) {
     console.error("Errore:", error);
     //alert("Si è verificato un errore durante il controllo dell'immagine.");
     status.textContent = "Si è verificato un errore durante il controllo dell'immagine.";
+    status.classList.add("error");
     return false;
   }
+}
+
+function isFileNameValid(fileName) {
+  
+    var containChar = false, firstChar = fileName[0], lastChar = fileName[fileName.length-1];
+    console.log(fileName.length);
+    if (fileName != "") {
+      for(var i=0; i<fileName.length; i++) {
+        console.log(i);
+        if(fileName[i] !== " " && fileName[i] != ".") {
+          containChar = true;
+          i = fileName.length;
+        } else if (fileName[i] == ".") {
+          containChar = false;
+        }
+      }
+      if (containChar && firstChar !== "<" && firstChar !== ">" && lastChar !== "<" && lastChar !== ">" && firstChar !== "\\" && lastChar !== "\\") {
+        return true;
+      }
+    } else {
+        return false;
+    }
+}function isFileNameValid(fileName) {
+  
+    var containChar = false, firstChar = fileName[0], lastChar = fileName[fileName.length-1];
+    if (fileName != "") {
+      for(var i=0; i<fileName.length; i++) {
+        if(fileName[i] !== " " && fileName[i] != ".") {
+          containChar = true;
+        } else if (fileName[i] == ".") {
+          containChar = false;
+          i = fileName.length;
+        }
+      }
+      if (containChar && firstChar !== "<" && firstChar !== ">" && lastChar !== "<" && lastChar !== ">" && firstChar !== "\\" && lastChar !== "\\") {
+        return true;
+      }
+    } else {
+        return false;
+    }
 }
 
 function openFileViewer(fileId, fileName) {
