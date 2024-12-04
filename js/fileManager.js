@@ -219,7 +219,6 @@ function loadDriveFiles() {
   fileManager.loadFiles();
 }
 
-// Update search to work with new system
 function filterFiles() {
   const searchTerm = document.getElementById("searchInput").value.toLowerCase();
   
@@ -228,14 +227,27 @@ function filterFiles() {
       return;
   }
 
-  // Filter files across all subjects
-  const filteredFiles = fileManager.allFiles.filter(file => 
-      file.name.toLowerCase().includes(searchTerm) || 
-      (file.description && file.description.toLowerCase().includes(searchTerm))
-  );
+  // Create a global result set
+  const globalResults = [];
 
-  // Temporarily update allFiles and re-categorize
-  fileManager.allFiles = filteredFiles;
+  // Search across ALL files in ALL subjects
+  Object.values(subjectFiles).forEach(subjectFileList => {
+      const matchedFiles = subjectFileList.filter(file => 
+          file.name.toLowerCase().includes(searchTerm) || 
+          (file.description && file.description.toLowerCase().includes(searchTerm))
+      );
+      
+      globalResults.push(...matchedFiles);
+  });
+
+  // Temporarily update categorization with search results
+  fileManager.allFiles = globalResults;
   fileManager.categorizeFiles();
   fileManager.renderSubjectGrid();
+
+  // Optional: Add search result count feedback
+  const resultsCountElement = document.getElementById('search-results-count');
+  if (resultsCountElement) {
+      resultsCountElement.textContent = `${globalResults.length} risultati trovati`;
+  }
 }
