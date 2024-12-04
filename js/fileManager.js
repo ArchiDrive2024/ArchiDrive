@@ -1,31 +1,33 @@
-// Updated file categorization and management system
-let subjectFiles = {
-  'Matematica': [],
-  'Indirizzo Informatico': [],
-  'Italiano': [],
-  'Storia': [],
-  'Inglese': [],
-  'Fisica': [],
-  'TTRG': [],
-  'Telecomunicazioni': [],
-  'Geografia': [],
-  'Diritto': [],
-  'Indirizzo Meccanico': [],
-  'Indirizzo Chimico': [],
-  'Indirizzo di Automazione': [],
-  'Scienze Motorie': []
-};
-
+// Updated FileManager class with improved search capabilities
 class FileManager {
   constructor() {
       this.allFiles = [];
+      this.folderStructure = {
+          'Matematica': ['Algebra', 'Geometria', 'Calcolo'],
+          'Indirizzo Informatico': ['Programmazione', 'Sistemi', 'Reti'],
+          'Italiano': ['Letteratura', 'Grammatica', 'Analisi'],
+          'Storia': ['Storia Moderna', 'Storia Antica', 'Cronologia'],
+          'Inglese': ['Grammar', 'Vocabulary', 'Conversation'],
+          'Fisica': ['Meccanica', 'Termodinamica', 'Elettromagnetismo'],
+          'TTRG': ['Disegno Tecnico', 'Progettazione'],
+          'Telecomunicazioni': ['Reti', 'Protocolli', 'Comunicazione'],
+          'Geografia': ['Geografia Fisica', 'Geopolitica'],
+          'Diritto': ['Diritto Civile', 'Diritto Pubblico'],
+          'Indirizzo Meccanico': ['Meccanica Applicata', 'Macchine'],
+          'Indirizzo Chimico': ['Chimica Organica', 'Chimica Inorganica'],
+          'Indirizzo di Automazione': ['Robotica', 'Sistemi di Controllo'],
+          'Scienze Motorie': ['Teoria', 'Pratica']
+      };
   }
 
   async loadFiles() {
       try {
           const response = await fetch("https://archidriveserver.x10.mx/get_files.php");
           const data = await response.json();
-          this.allFiles = data.files;
+          this.allFiles = data.files.map(file => ({
+              ...file,
+              fullPath: this.extractFullPath(file.name)
+          }));
           this.categorizeFiles();
           this.renderSubjectGrid();
       } catch (error) {
@@ -33,23 +35,13 @@ class FileManager {
       }
   }
 
-  categorizeFiles() {
-      // Reset subject files
-      Object.keys(subjectFiles).forEach(subject => subjectFiles[subject] = []);
-
-      this.allFiles.forEach(file => {
-          const subjectMatch = this.determineSubject(file.name, file.description);
-          if (subjectMatch) {
-              subjectFiles[subjectMatch].push(file);
-          } else {
-              // Default to a general category if no match
-              subjectFiles['Matematica'].push(file);
-          }
-      });
+  extractFullPath(fileName) {
+      // Extract potential folder structure from filename
+      const pathParts = fileName.split('/');
+      return pathParts.slice(0, -1).join('/');
   }
 
-  determineSubject(fileName, description) {
-      // Implement intelligent subject matching logic
+  determineSubject(fileName, description, fullPath) {
       const subjectKeywords = {
           'Matematica': ['math', 'matematica', 'algebra', 'geometria', 'calcolo'],
           'Indirizzo Informatico': ['coding', 'programmazione', 'informatica', 'code', 'software'],
@@ -68,10 +60,18 @@ class FileManager {
       };
 
       // Check both filename and description
-      const searchText = (fileName + ' ' + (description || '')).toLowerCase();
+      const searchText = (fileName + ' ' + (description || '') + ' ' + fullPath).toLowerCase();
 
+      // First, check for direct subject keywords
       for (const [subject, keywords] of Object.entries(subjectKeywords)) {
           if (keywords.some(keyword => searchText.includes(keyword))) {
+              return subject;
+          }
+      }
+
+      // Then, check folder structure
+      for (const [subject, subfolders] of Object.entries(this.folderStructure)) {
+          if (subfolders.some(subfolder => searchText.includes(subfolder.toLowerCase()))) {
               return subject;
           }
       }
@@ -79,146 +79,23 @@ class FileManager {
       return null;
   }
 
-  renderSubjectGrid() {
-      const container = document.getElementById('fileList');
-      container.innerHTML = '';
-      container.className = 'subject-grid';
+  categorizeFiles() {
+      // Reset subject files
+      Object.keys(subjectFiles).forEach(subject => subjectFiles[subject] = []);
 
-      Object.entries(subjectFiles).forEach(([subject, files]) => {
-          const subjectCard = document.createElement('div');
-          subjectCard.className = 'subject-card';
-          
-          // Subject icon and name
-          const subjectHeader = document.createElement('div');
-          subjectHeader.className = 'subject-header';
-          subjectHeader.innerHTML = `
-              <div class="subject-icon">${this.getSubjectIcon(subject)}</div>
-              <h2>${subject}</h2>
-              <span class="file-count">${files.length} file</span>
-          `;
-
-          // File list
-          const fileList = document.createElement('ul');
-          fileList.className = 'subject-file-list';
-          
-          files.slice(0, 3).forEach(file => {
-              const fileItem = document.createElement('li');
-              fileItem.innerHTML = `
-                  <span class="file-name">${file.name}</span>
-                  <small class="file-description">${file.description || 'Nessuna descrizione'}</small>
-              `;
-              fileItem.onclick = () => this.openFileViewer(file.id, file.name);
-              fileList.appendChild(fileItem);
-          });
-
-          // View all button
-          const viewAllBtn = document.createElement('button');
-          viewAllBtn.textContent = 'Vedi tutti i file';
-          viewAllBtn.className = 'view-all-btn';
-          viewAllBtn.onclick = () => this.showSubjectFiles(subject);
-
-          subjectCard.appendChild(subjectHeader);
-          subjectCard.appendChild(fileList);
-          subjectCard.appendChild(viewAllBtn);
-
-          container.appendChild(subjectCard);
+      this.allFiles.forEach(file => {
+          const subjectMatch = this.determineSubject(file.name, file.description, file.fullPath);
+          if (subjectMatch) {
+              subjectFiles[subjectMatch].push(file);
+          } else {
+              // Default to a general category if no match
+              subjectFiles['Matematica'].push(file);
+          }
       });
-  }
-
-  getSubjectIcon(subject) {
-      const icons = {
-          'Matematica': '📐',
-          'Indirizzo Informatico': '💻',
-          'Italiano': '📖',
-          'Storia': '🏛️',
-          'Inglese': '🇬🇧',
-          'Fisica': '⚛️',
-          'TTRG': '📏',
-          'Telecomunicazioni': '📡',
-          'Geografia': '🌍',
-          'Diritto': '⚖️',
-          'Indirizzo Meccanico': '🔧',
-          'Indirizzo Chimico': '🧪',
-          'Indirizzo di Automazione': '🤖',
-          'Scienze Motorie': '🏀'
-      };
-      return icons[subject] || '📄';
-  }
-
-  showSubjectFiles(subject) {
-      const modalContent = document.createElement('div');
-      modalContent.className = 'subject-modal';
-      modalContent.innerHTML = `
-          <div class="modal-header">
-              <h2>${subject}</h2>
-              <button class="close-modal">×</button>
-          </div>
-          <ul class="full-file-list"></ul>
-      `;
-
-      const fileList = modalContent.querySelector('.full-file-list');
-      subjectFiles[subject].forEach(file => {
-          const fileItem = document.createElement('li');
-          fileItem.innerHTML = `
-              <div class="file-info">
-                  <span class="file-name">${file.name}</span>
-                  <small class="file-description">${file.description || 'Nessuna descrizione'}</small>
-              </div>
-              <button class="view-file-btn">Apri</button>
-          `;
-          fileItem.querySelector('.view-file-btn').onclick = () => this.openFileViewer(file.id, file.name);
-          fileList.appendChild(fileItem);
-      });
-
-      // Create modal
-      const modal = document.createElement('div');
-      modal.className = 'modal';
-      modal.appendChild(modalContent);
-      document.body.appendChild(modal);
-
-      // Close modal functionality
-      modalContent.querySelector('.close-modal').onclick = () => {
-          document.body.removeChild(modal);
-      };
-  }
-
-  openFileViewer(fileId, fileName) {
-      // Existing file viewer logic
-      const modal = document.getElementById("fileViewerModal");
-      const content = document.getElementById("fileContent");
-      const loading = document.getElementById("loadingViewer");
-
-      modal.style.display = "flex";
-      content.style.display = "none";
-      loading.style.display = "block";
-
-      fetch(`https://archidriveserver.x10.mx/get_view_link.php?fileId=${fileId}`)
-          .then((response) => response.json())
-          .then((data) => {
-              loading.style.display = "none";
-              content.style.display = "block";
-
-              if (data.webViewLink) {
-                  content.innerHTML = `<iframe src="${data.webViewLink}" allowfullscreen></iframe>`;
-              } else {
-                  content.innerHTML = "Impossibile visualizzare il file";
-              }
-          })
-          .catch((error) => {
-              loading.style.display = "none";
-              content.innerHTML = "Errore nel caricamento del file";
-          });
   }
 }
 
-// Initialize file manager
-const fileManager = new FileManager();
-
-// Replace existing load files function
-function loadDriveFiles() {
-  fileManager.loadFiles();
-}
-
+// Update the global filterFiles function
 function filterFiles() {
   const searchTerm = document.getElementById("searchInput").value.toLowerCase();
   
@@ -230,11 +107,12 @@ function filterFiles() {
   // Create a global result set
   const globalResults = [];
 
-  // Search across ALL files in ALL subjects
+  // Search across ALL files in ALL subjects, now including full path
   Object.values(subjectFiles).forEach(subjectFileList => {
       const matchedFiles = subjectFileList.filter(file => 
           file.name.toLowerCase().includes(searchTerm) || 
-          (file.description && file.description.toLowerCase().includes(searchTerm))
+          (file.description && file.description.toLowerCase().includes(searchTerm)) ||
+          (file.fullPath && file.fullPath.toLowerCase().includes(searchTerm))
       );
       
       globalResults.push(...matchedFiles);
@@ -250,4 +128,9 @@ function filterFiles() {
   if (resultsCountElement) {
       resultsCountElement.textContent = `${globalResults.length} risultati trovati`;
   }
+}
+function closeFileViewer() {
+  const modal = document.getElementById("fileViewerModal");
+  modal.style.display = "none";
+  document.getElementById("fileContent").innerHTML = "";
 }
