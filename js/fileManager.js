@@ -251,3 +251,10 @@ function filterFiles() {
       resultsCountElement.textContent = `${globalResults.length} risultati trovati`;
   }
 }
+
+
+function closeFileViewer() {
+  const modal2 = document.getElementById("fileViewerModal");
+  modal2.style.display = "none";
+  document.getElementById("fileContent").innerHTML = "";
+}
