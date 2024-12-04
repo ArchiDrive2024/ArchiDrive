@@ -822,20 +822,6 @@ h2 {
     margin-right: 16px;
 }
 
-.view-file-btn {
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.view-file-btn:hover {
-    background-color: #2980b9;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .subject-grid {
