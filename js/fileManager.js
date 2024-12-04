@@ -1,3 +1,4 @@
+// Updated file categorization and management system
 let subjectFiles = {
   'Matematica': [],
   'Indirizzo Informatico': [],
@@ -124,50 +125,130 @@ class FileManager {
       });
   }
 
-  // Enhanced filterFiles method
-  filterFiles() {
-    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-    const searchResultsCountElement = document.getElementById('search-results-count');
-    
-    if (searchTerm === "") {
-        this.renderSubjectGrid();
-        searchResultsCountElement.textContent = '';
-        return;
-    }
+  getSubjectIcon(subject) {
+      const icons = {
+          'Matematica': '📐',
+          'Indirizzo Informatico': '💻',
+          'Italiano': '📖',
+          'Storia': '🏛️',
+          'Inglese': '🇬🇧',
+          'Fisica': '⚛️',
+          'TTRG': '📏',
+          'Telecomunicazioni': '📡',
+          'Geografia': '🌍',
+          'Diritto': '⚖️',
+          'Indirizzo Meccanico': '🔧',
+          'Indirizzo Chimico': '🧪',
+          'Indirizzo di Automazione': '🤖',
+          'Scienze Motorie': '🏀'
+      };
+      return icons[subject] || '📄';
+  }
 
-    // Create a comprehensive search across all subjects
-    const globalResults = [];
+  showSubjectFiles(subject) {
+      const modalContent = document.createElement('div');
+      modalContent.className = 'subject-modal';
+      modalContent.innerHTML = `
+          <div class="modal-header">
+              <h2>${subject}</h2>
+              <button class="close-modal">×</button>
+          </div>
+          <ul class="full-file-list"></ul>
+      `;
 
-    // Search method that checks multiple attributes and subject context
-    const advancedFileSearch = (file, term) => {
-        const searchAttributes = [
-            file.name.toLowerCase(), 
-            (file.description || '').toLowerCase(),
-            this.determineSubject(file.name, file.description) || ''
-        ];
+      const fileList = modalContent.querySelector('.full-file-list');
+      subjectFiles[subject].forEach(file => {
+          const fileItem = document.createElement('li');
+          fileItem.innerHTML = `
+              <div class="file-info">
+                  <span class="file-name">${file.name}</span>
+                  <small class="file-description">${file.description || 'Nessuna descrizione'}</small>
+              </div>
+              <button class="view-file-btn">Apri</button>
+          `;
+          fileItem.querySelector('.view-file-btn').onclick = () => this.openFileViewer(file.id, file.name);
+          fileList.appendChild(fileItem);
+      });
 
-        // Check if any attribute contains the search term
-        return searchAttributes.some(attr => attr.includes(term));
-    };
+      // Create modal
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.appendChild(modalContent);
+      document.body.appendChild(modal);
 
-    // Search across ALL files in ALL subjects
-    Object.values(subjectFiles).forEach(subjectFileList => {
-        const matchedFiles = subjectFileList.filter(file => 
-            advancedFileSearch(file, searchTerm)
-        );
-        
-        globalResults.push(...matchedFiles);
-    });
+      // Close modal functionality
+      modalContent.querySelector('.close-modal').onclick = () => {
+          document.body.removeChild(modal);
+      };
+  }
 
-    // Temporarily update categorization with search results
-    this.allFiles = globalResults;
-    this.categorizeFiles();
-    this.renderSubjectGrid();
+  openFileViewer(fileId, fileName) {
+      // Existing file viewer logic
+      const modal = document.getElementById("fileViewerModal");
+      const content = document.getElementById("fileContent");
+      const loading = document.getElementById("loadingViewer");
 
-    // Update search results count
-    if (searchResultsCountElement) {
-        searchResultsCountElement.textContent = `${globalResults.length} risultati trovati`;
-    }
+      modal.style.display = "flex";
+      content.style.display = "none";
+      loading.style.display = "block";
+
+      fetch(`https://archidriveserver.x10.mx/get_view_link.php?fileId=${fileId}`)
+          .then((response) => response.json())
+          .then((data) => {
+              loading.style.display = "none";
+              content.style.display = "block";
+
+              if (data.webViewLink) {
+                  content.innerHTML = `<iframe src="${data.webViewLink}" allowfullscreen></iframe>`;
+              } else {
+                  content.innerHTML = "Impossibile visualizzare il file";
+              }
+          })
+          .catch((error) => {
+              loading.style.display = "none";
+              content.innerHTML = "Errore nel caricamento del file";
+          });
+  }
+}
+
+// Initialize file manager
+const fileManager = new FileManager();
+
+// Replace existing load files function
+function loadDriveFiles() {
+  fileManager.loadFiles();
+}
+
+function filterFiles() {
+  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+  
+  if (searchTerm === "") {
+      fileManager.renderSubjectGrid();
+      return;
+  }
+
+  // Create a global result set
+  const globalResults = [];
+
+  // Search across ALL files in ALL subjects
+  Object.values(subjectFiles).forEach(subjectFileList => {
+      const matchedFiles = subjectFileList.filter(file => 
+          file.name.toLowerCase().includes(searchTerm) || 
+          (file.description && file.description.toLowerCase().includes(searchTerm))
+      );
+      
+      globalResults.push(...matchedFiles);
+  });
+
+  // Temporarily update categorization with search results
+  fileManager.allFiles = globalResults;
+  fileManager.categorizeFiles();
+  fileManager.renderSubjectGrid();
+
+  // Optional: Add search result count feedback
+  const resultsCountElement = document.getElementById('search-results-count');
+  if (resultsCountElement) {
+      resultsCountElement.textContent = `${globalResults.length} risultati trovati`;
   }
 }
 
