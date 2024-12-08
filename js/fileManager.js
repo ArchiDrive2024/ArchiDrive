@@ -1,19 +1,20 @@
 // Updated file categorization and management system
 let subjectFiles = {
-  'Matematica': [],
   'Indirizzo Informatico': [],
+  'Indirizzo di Automazione': [],
+  'Indirizzo Meccanico': [],
+  'Indirizzo Chimico': [],
+  'Matematica': [],
+  'Telecomunicazioni': [],
   'Italiano': [],
   'Storia': [],
   'Inglese': [],
   'Fisica': [],
   'TTRG': [],
-  'Telecomunicazioni': [],
-  'Geografia': [],
+  'Scienze Motorie': [],
   'Diritto': [],
-  'Indirizzo Meccanico': [],
-  'Indirizzo Chimico': [],
-  'Indirizzo di Automazione': [],
-  'Scienze Motorie': []
+  'Geografia': [],
+  'Altro': []
 };
 
 class FileManager {
@@ -43,7 +44,7 @@ class FileManager {
               subjectFiles[subjectMatch].push(file);
           } else {
               // Default to a general category if no match
-              subjectFiles['Matematica'].push(file);
+              subjectFiles['Altro'].push(file);
           }
       });
   }
@@ -135,12 +136,13 @@ class FileManager {
           'Telecomunicazioni': '📡',
           'Italiano': '📖',
           'Storia': '🏛️',
-          'Inglese': '🇬🇧',
+          'Inglese': '£',
           'Fisica': '⚛️',
           'TTRG': '📏',
           'Scienze Motorie': '🏀',
           'Diritto': '⚖️',
-          'Geografia': '🌍'
+          'Geografia': '🌍',
+          'Altro': '📃'
       };
       return icons[subject] || '📄';
   }
