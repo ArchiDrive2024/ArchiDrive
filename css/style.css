@@ -788,7 +788,7 @@ h2 {
     justify-content: space-between;
     align-items: center;
     padding: 18px;
-    background: linear-gradient(135deg, var(--accent-color), #2980b9);
+    background: linear-gradient(135deg, var(--primary-color), #2980b9);
     color: white;
 }
 
