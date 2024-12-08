@@ -10,77 +10,85 @@ function toggleTheme() {
 
 function filterFiles() {
   const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-  const container = document.getElementById('fileList');
-  const resultsCountElement = document.getElementById('search-results-count');
-
+  
   if (searchTerm === "") {
-    // Se la ricerca è vuota, ripristina la visualizzazione originale
-    fileManager.renderSubjectGrid();
-    resultsCountElement.textContent = '';
-    return;
+      fileManager.renderSubjectGrid();
+      return;
   }
 
-  // Crea un contenitore per i risultati globali
-  const globalResultsContainer = document.createElement('div');
-  globalResultsContainer.className = 'global-search-results';
-  globalResultsContainer.innerHTML = `<h2>Risultati della ricerca: "${searchTerm}"</h2>`;
+  // Creare un contenitore per i risultati di ricerca se non esiste
+  let searchResultsContainer = document.getElementById('global-search-results');
+  if (!searchResultsContainer) {
+      searchResultsContainer = document.createElement('div');
+      searchResultsContainer.id = 'global-search-results';
+      searchResultsContainer.className = 'global-search-results';
+      document.body.insertBefore(searchResultsContainer, document.getElementById('fileList'));
+  }
+
+  // Reset del contenitore dei risultati
+  searchResultsContainer.innerHTML = '<h2>Risultati della ricerca</h2>';
 
   // Variabile per tracciare i risultati globali
   const globalResults = [];
 
-  // Ricerca in tutti i file di tutti i soggetti
+  // Ricerca in tutti i file di tutti i subject
   Object.entries(subjectFiles).forEach(([subject, subjectFileList]) => {
-    const matchedFiles = subjectFileList.filter(file => 
-      file.name.toLowerCase().includes(searchTerm) || 
-      (file.description && file.description.toLowerCase().includes(searchTerm))
-    );
-    
-    // Se ci sono risultati per questo soggetto, creali
-    if (matchedFiles.length > 0) {
-      const subjectResultContainer = document.createElement('div');
-      subjectResultContainer.className = 'subject-search-result';
+      const matchedFiles = subjectFileList.filter(file => 
+          file.name.toLowerCase().includes(searchTerm) || 
+          (file.description && file.description.toLowerCase().includes(searchTerm))
+      );
       
-      const subjectHeader = document.createElement('h3');
-      subjectHeader.innerHTML = `
-        ${fileManager.getSubjectIcon(subject)} ${subject} 
-        <span class="result-count">${matchedFiles.length} file</span>
-      `;
-      subjectResultContainer.appendChild(subjectHeader);
+      if (matchedFiles.length > 0) {
+          // Creare una sezione per ogni subject con risultati
+          const subjectSection = document.createElement('div');
+          subjectSection.className = 'search-subject-section';
+          
+          const subjectTitle = document.createElement('h3');
+          subjectTitle.textContent = `${subject} (${matchedFiles.length} risultati)`;
+          subjectSection.appendChild(subjectTitle);
 
-      const fileList = document.createElement('ul');
-      fileList.className = 'search-result-file-list';
-      
-      matchedFiles.forEach(file => {
-        const fileItem = document.createElement('li');
-        fileItem.innerHTML = `
-          <div class="file-info">
-            <span class="file-name">${file.name}</span>
-            <small class="file-description">${file.description || 'Nessuna descrizione'}</small>
-          </div>
-          <button class="view-file-btn">Apri</button>
-        `;
-        fileItem.querySelector('.view-file-btn').onclick = () => fileManager.openFileViewer(file.id, file.name);
-        fileList.appendChild(fileItem);
-      });
+          const fileList = document.createElement('ul');
+          fileList.className = 'search-file-list';
 
-      subjectResultContainer.appendChild(fileList);
-      globalResultsContainer.appendChild(subjectResultContainer);
-      globalResults.push(...matchedFiles);
-    }
+          matchedFiles.forEach(file => {
+              const fileItem = document.createElement('li');
+              fileItem.innerHTML = `
+                  <div class="file-info">
+                      <span class="file-name">${file.name}</span>
+                      <small class="file-description">${file.description || 'Nessuna descrizione'}</small>
+                  </div>
+                  <button class="view-file-btn">Apri</button>
+              `;
+              fileItem.querySelector('.view-file-btn').onclick = () => fileManager.openFileViewer(file.id, file.name);
+              fileList.appendChild(fileItem);
+          });
+
+          subjectSection.appendChild(fileList);
+          searchResultsContainer.appendChild(subjectSection);
+          globalResults.push(...matchedFiles);
+      }
   });
 
-  // Svuota il container principale e aggiungi i risultati
-  container.innerHTML = '';
+  // Nascondere la griglia originale dei subject
+  document.getElementById('fileList').style.display = 'none';
+
+  // Aggiornare il conteggio dei risultati
+  const resultsCountElement = document.getElementById('search-results-count');
+  if (resultsCountElement) {
+      resultsCountElement.textContent = `${globalResults.length} risultati trovati`;
+  }
+
+  // Aggiungere un pulsante per tornare alla visualizzazione originale
   if (globalResults.length > 0) {
-    container.appendChild(globalResultsContainer);
-    resultsCountElement.textContent = `${globalResults.length} risultati trovati`;
-  } else {
-    // Nessun risultato trovato
-    const noResultsMessage = document.createElement('div');
-    noResultsMessage.className = 'no-results';
-    noResultsMessage.textContent = 'Nessun file trovato';
-    container.appendChild(noResultsMessage);
-    resultsCountElement.textContent = '0 risultati trovati';
+      const resetButton = document.createElement('button');
+      resetButton.textContent = 'Torna alla vista originale';
+      resetButton.className = 'reset-search-btn';
+      resetButton.onclick = () => {
+          searchResultsContainer.innerHTML = '';
+          document.getElementById('fileList').style.display = 'grid';
+          document.getElementById('search-results-count').textContent = '';
+      };
+      searchResultsContainer.appendChild(resetButton);
   }
 }
 
