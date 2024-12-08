@@ -86,6 +86,10 @@
     }
 }
 
+* {
+    transition: ease-in-out 0.2s;
+}
+
 body {
     font-family: 'Titillium Web', sans-serif;
     background: var(--background);
@@ -743,7 +747,7 @@ h2 {
     width: 100%;
     padding: 14px;
     background-color: transparent;
-    color: var(--background);
+    color: var(--text-primary);
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
