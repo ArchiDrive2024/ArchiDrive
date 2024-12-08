@@ -65,6 +65,7 @@ function filterFiles() {
               (function(currentFile) {
                   fileItem.querySelector('.view-file-btn').addEventListener('click', () => {
                       // Directly call the openFileViewer method with the file's ID
+                      console.log("Ok");
                       fileManager.openFileViewer(currentFile.id, currentFile.name);
                   });
               })(file);
