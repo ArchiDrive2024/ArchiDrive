@@ -220,36 +220,79 @@ function loadDriveFiles() {
 }
 
 function filterFiles() {
-  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+    const container = document.getElementById('fileList');
+    const resultsCountElement = document.getElementById('search-results-count');
   
-  if (searchTerm === "") {
+    if (searchTerm === "") {
+      // Se la ricerca è vuota, ripristina la visualizzazione originale
       fileManager.renderSubjectGrid();
+      resultsCountElement.textContent = '';
       return;
-  }
-
-  // Create a global result set
-  const globalResults = [];
-
-  // Search across ALL files in ALL subjects
-  Object.values(subjectFiles).forEach(subjectFileList => {
+    }
+  
+    // Crea un contenitore per i risultati globali
+    const globalResultsContainer = document.createElement('div');
+    globalResultsContainer.className = 'global-search-results';
+    globalResultsContainer.innerHTML = `<h2>Risultati della ricerca: "${searchTerm}"</h2>`;
+  
+    // Variabile per tracciare i risultati globali
+    const globalResults = [];
+  
+    // Ricerca in tutti i file di tutti i soggetti
+    Object.entries(subjectFiles).forEach(([subject, subjectFileList]) => {
       const matchedFiles = subjectFileList.filter(file => 
-          file.name.toLowerCase().includes(searchTerm) || 
-          (file.description && file.description.toLowerCase().includes(searchTerm))
+        file.name.toLowerCase().includes(searchTerm) || 
+        (file.description && file.description.toLowerCase().includes(searchTerm))
       );
       
-      globalResults.push(...matchedFiles);
-  });
-
-  // Temporarily update categorization with search results
-  fileManager.allFiles = globalResults;
-  fileManager.categorizeFiles();
-  fileManager.renderSubjectGrid();
-
-  // Optional: Add search result count feedback
-  const resultsCountElement = document.getElementById('search-results-count');
-  if (resultsCountElement) {
+      // Se ci sono risultati per questo soggetto, creali
+      if (matchedFiles.length > 0) {
+        const subjectResultContainer = document.createElement('div');
+        subjectResultContainer.className = 'subject-search-result';
+        
+        const subjectHeader = document.createElement('h3');
+        subjectHeader.innerHTML = `
+          ${fileManager.getSubjectIcon(subject)} ${subject} 
+          <span class="result-count">${matchedFiles.length} file</span>
+        `;
+        subjectResultContainer.appendChild(subjectHeader);
+  
+        const fileList = document.createElement('ul');
+        fileList.className = 'search-result-file-list';
+        
+        matchedFiles.forEach(file => {
+          const fileItem = document.createElement('li');
+          fileItem.innerHTML = `
+            <div class="file-info">
+              <span class="file-name">${file.name}</span>
+              <small class="file-description">${file.description || 'Nessuna descrizione'}</small>
+            </div>
+            <button class="view-file-btn">Apri</button>
+          `;
+          fileItem.querySelector('.view-file-btn').onclick = () => fileManager.openFileViewer(file.id, file.name);
+          fileList.appendChild(fileItem);
+        });
+  
+        subjectResultContainer.appendChild(fileList);
+        globalResultsContainer.appendChild(subjectResultContainer);
+        globalResults.push(...matchedFiles);
+      }
+    });
+  
+    // Svuota il container principale e aggiungi i risultati
+    container.innerHTML = '';
+    if (globalResults.length > 0) {
+      container.appendChild(globalResultsContainer);
       resultsCountElement.textContent = `${globalResults.length} risultati trovati`;
-  }
+    } else {
+      // Nessun risultato trovato
+      const noResultsMessage = document.createElement('div');
+      noResultsMessage.className = 'no-results';
+      noResultsMessage.textContent = 'Nessun file trovato';
+      container.appendChild(noResultsMessage);
+      resultsCountElement.textContent = '0 risultati trovati';
+    }
 }
 
 function closeFileViewer() {
