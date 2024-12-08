@@ -57,15 +57,13 @@ function filterFiles() {
               fileItem.innerHTML = `
                   <div class="file-info">
                       <span class="file-name">${file.name}</span>
-                      <small class="file-description">${file.description || 'Nessuna descrizione'}</small>
+                      <small class="file-description">${"- " + file.description || 'Nessuna descrizione'}</small>
                   </div>
                   <button class="view-file-btn">Apri</button>
               `;
               // Use an IIFE to capture the correct file for the event listener
               (function(currentFile) {
                   fileItem.querySelector('.view-file-btn').addEventListener('click', () => {
-                      // Directly call the openFileViewer method with the file's ID
-                      console.log("Ok");
                       fileManager.openFileViewer(currentFile.id, currentFile.name);
                   });
               })(file);
