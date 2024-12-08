@@ -752,6 +752,7 @@ h2 {
     cursor: pointer;
     transition: background-color 0.3s;
     font-weight: 600;
+    transition: ease-in-out 0.2s;
 }
 
 .view-all-btn:hover {
