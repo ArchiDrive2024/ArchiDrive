@@ -61,7 +61,14 @@ function filterFiles() {
                   </div>
                   <button class="view-file-btn">Apri</button>
               `;
-              fileItem.querySelector('.view-file-btn').onclick = () => fileManager.openFileViewer(file.id, file.name);
+              // Use an IIFE to capture the correct file for the event listener
+              (function(currentFile) {
+                  fileItem.querySelector('.view-file-btn').addEventListener('click', () => {
+                      // Directly call the openFileViewer method with the file's ID
+                      fileManager.openFileViewer(currentFile.id, currentFile.name);
+                  });
+              })(file);
+              
               fileList.appendChild(fileItem);
           });
 
