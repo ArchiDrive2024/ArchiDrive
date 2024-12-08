@@ -293,7 +293,7 @@ function filterFiles() {
       container.appendChild(noResultsMessage);
       resultsCountElement.textContent = '0 risultati trovati';
     }
-}
+  }
 
 function closeFileViewer() {
   const modal2 = document.getElementById("fileViewerModal");
