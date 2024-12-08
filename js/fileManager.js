@@ -22,35 +22,61 @@ class FileManager {
       this.allFiles = [];
   }
 
-  async loadFiles() {
-      try {
-          const response = await fetch("https://archidriveserver.x10.mx/get_files.php");
-          const data = await response.json();
-          this.allFiles = data.files;
-          this.categorizeFiles();
-          this.renderSubjectGrid();
-      } catch (error) {
-          console.error("Errore nel caricamento dei file:", error);
-      }
-  }
+async loadFiles() {
+    try {
+        const response = await fetch("https://archidriveserver.x10.mx/get_files.php");
+        const data = await response.json();
+        this.allFiles = data.files.map(file => ({
+            ...file,
+            fullPath: file.fullPath || ''
+        }));
+        this.categorizeFiles();
+        this.renderSubjectGrid();
+    } catch (error) {
+        console.error("Errore nel caricamento dei file:", error);
+    }
+}
 
-  categorizeFiles() {
-      // Reset subject files
-      Object.keys(subjectFiles).forEach(subject => subjectFiles[subject] = []);
+categorizeFiles() {
+    Object.keys(subjectFiles).forEach(subject => subjectFiles[subject] = []);
 
-      this.allFiles.forEach(file => {
-          const subjectMatch = this.determineSubject(file.name, file.description);
-          if (subjectMatch) {
-              subjectFiles[subjectMatch].push(file);
-          } else {
-              // Default to a general category if no match
-              subjectFiles['Altro'].push(file);
-          }
-      });
-  }
+    this.allFiles.forEach(file => {
+        const subjectMatch = this.determineSubject(file.name, file.description, file.fullPath);
+        if (subjectMatch) {
+            subjectFiles[subjectMatch].push(file);
+        } else {
+            subjectFiles['Altro'].push(file);
+        }
+    });
+}
 
-  determineSubject(fileName, description) {
-      // Implement intelligent subject matching logic
+  determineSubject(fileName, description, fullPath = '') {
+    // Mappa diretta delle cartelle ai soggetti
+    const folderSubjectMap = {
+        'Matematica': 'Matematica',
+        'Informatica': 'Indirizzo Informatico',
+        'Storia': 'Storia',
+        'Italiano': 'Italiano',
+        'Inglese': 'Inglese',
+        'Fisica': 'Fisica',
+        'TTRG': 'TTRG',
+        'Telecomunicazioni': 'Telecomunicazioni',
+        'Diritto': 'Diritto',
+        'Meccanica': 'Indirizzo Meccanico',
+        'Chimica': 'Indirizzo Chimico',
+        'Automazione': 'Indirizzo di Automazione',
+        'ScienzeMotiorie': 'Scienze Motorie'
+    };
+
+    // Controlla prima per nome cartella
+    const matchedSubject = Object.keys(folderSubjectMap).find(folder => 
+        fullPath.toLowerCase().includes(folder.toLowerCase())
+    );
+
+    if (matchedSubject) {
+        return folderSubjectMap[matchedSubject];
+    }
+    
       const subjectKeywords = {
           'Matematica': ['math', 'matematica', 'algebra', 'geometria', 'calcolo'],
           'Indirizzo Informatico': ['coding', 'programmazione', 'informatica', 'code', 'software'],
@@ -68,17 +94,16 @@ class FileManager {
           'Scienze Motorie': ['sport', 'movimento', 'fisico', 'attività']
       };
 
-      // Check both filename and description
-      const searchText = (fileName + ' ' + (description || '')).toLowerCase();
+      const searchText = (fileName + ' ' + (description || '') + ' ' + fullPath).toLowerCase();
 
       for (const [subject, keywords] of Object.entries(subjectKeywords)) {
           if (keywords.some(keyword => searchText.includes(keyword))) {
               return subject;
           }
       }
-
+  
       return null;
-  }
+    }
 
   renderSubjectGrid() {
       const container = document.getElementById('fileList');
@@ -169,12 +194,10 @@ class FileManager {
               <button class="view-file-btn">Apri</button>
           `;
           fileItem.querySelector('.view-file-btn').onclick = () => {
-            this.openFileViewer(file.id, file.name); // Esegue la funzione openFileViewer
-            modalContent.style.display = "none"; // Nasconde modalContent
-            modal.style.display = "none"; // Nasconde modal
+            this.openFileViewer(file.id, file.name);
+            modalContent.style.display = "none";
+            modal.style.display = "none";
         };
-        
-
           fileList.appendChild(fileItem);
           
       });
