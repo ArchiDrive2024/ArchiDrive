@@ -835,9 +835,9 @@ h2 {
     background-color: #fa6400;
 }
 
-#search-results-count {
+.global-search-results {
     border: 2px solid red;
-    width: 100%;
+    width: 200%;
 }
 
 /* Responsive adjustments */
