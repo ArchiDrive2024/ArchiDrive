@@ -774,7 +774,7 @@ h2 {
 }
 
 .subject-modal {
-    background-color: var(--card-background);
+    background-color: var(--background);
     width: 90%;
     max-width: 800px;
     max-height: 90%;
@@ -788,7 +788,7 @@ h2 {
     justify-content: space-between;
     align-items: center;
     padding: 18px;
-    background: linear-gradient(135deg, var(--primary-color), #2980b9);
+    background: linear-gradient(135deg, var(--background), #2980b9);
     color: white;
 }
 

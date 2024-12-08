@@ -22,7 +22,7 @@ function filterFiles() {
 
   // Create a container for global search results
   container.innerHTML = '';
-  container.classList.remove("subject-grid");
+  container.classList.remove("subject-grid")
   const globalResultsSection = document.createElement('div');
   globalResultsSection.className = 'global-search-results';
   
