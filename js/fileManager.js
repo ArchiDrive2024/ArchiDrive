@@ -221,7 +221,7 @@ function loadDriveFiles() {
 
 function filterFiles() {
     const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-    const container2 = document.getElementById('fileList2');
+    const container = document.getElementById('fileList');
     const resultsCountElement = document.getElementById('search-results-count');
   
     if (searchTerm === "") {
@@ -281,16 +281,16 @@ function filterFiles() {
     });
   
     // Svuota il container principale e aggiungi i risultati
-    container2.innerHTML = '';
+    container.innerHTML = '';
     if (globalResults.length > 0) {
-      container2.appendChild(globalResultsContainer);
+      container.appendChild(globalResultsContainer);
       resultsCountElement.textContent = `${globalResults.length} risultati trovati`;
     } else {
       // Nessun risultato trovato
       const noResultsMessage = document.createElement('div');
       noResultsMessage.className = 'no-results';
       noResultsMessage.textContent = 'Nessun file trovato';
-      container2.appendChild(noResultsMessage);
+      container.appendChild(noResultsMessage);
       resultsCountElement.textContent = '0 risultati trovati';
     }
 }
