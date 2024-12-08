@@ -8,7 +8,6 @@
     --hover-color: #f1f5f9;
     --success: #08943b;
     --error: #ef4444;
-
     --gradient-start: #005894;
     --gradient-end: #1900ff;
 }
@@ -682,7 +681,7 @@ h2 {
     display: flex;
     align-items: center;
     padding: 18px;
-    background: linear-gradient(135deg, var(--accent-color), #2980b9);
+    background: linear-gradient(135deg, var(--primary-color), #2980b9);
     color: white;
 }
 
@@ -743,7 +742,7 @@ h2 {
 .view-all-btn {
     width: 100%;
     padding: 14px;
-    background-color: var(--accent-color);
+    background-color: var(--primary-color);
     color: white;
     border: none;
     cursor: pointer;
@@ -784,7 +783,7 @@ h2 {
     justify-content: space-between;
     align-items: center;
     padding: 18px;
-    background: linear-gradient(135deg, var(--accent-color), #2980b9);
+    background: linear-gradient(135deg, var(--primary-color), #2980b9);
     color: white;
 }
 
@@ -823,7 +822,7 @@ h2 {
 }
 
 .view-file-btn {
-    background-color: var(--accent-color);
+    background-color: var(--primary-color);
     color: white;
     border: none;
     padding: 10px 16px;
