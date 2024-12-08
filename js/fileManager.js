@@ -168,9 +168,13 @@ class FileManager {
               </div>
               <button class="view-file-btn">Apri</button>
           `;
-          fileItem.querySelector('.view-file-btn').onclick = () => this.openFileViewer(file.id, file.name);
+          fileItem.querySelector('.view-file-btn').addEventListener("click", function(){
+            this.openFileViewer(file.id, file.name);
+            modalContent.style.display = "none";
+            modal.style.display = "none";
+          });
           fileList.appendChild(fileItem);
-          modalContent.style.display = "none";
+          
       });
 
       // Create modal
