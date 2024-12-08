@@ -121,7 +121,6 @@ class FileManager {
           subjectCard.appendChild(subjectHeader);
           subjectCard.appendChild(fileList);
           subjectCard.appendChild(viewAllBtn);
-
           container.appendChild(subjectCard);
       });
   }
@@ -150,6 +149,7 @@ class FileManager {
   showSubjectFiles(subject) {
       const modalContent = document.createElement('div');
       modalContent.className = 'subject-modal';
+      modalContent.id = 'subject-modal';
       modalContent.innerHTML = `
           <div class="modal-header">
               <h2>${subject}</h2>
@@ -170,6 +170,7 @@ class FileManager {
           `;
           fileItem.querySelector('.view-file-btn').onclick = () => this.openFileViewer(file.id, file.name);
           fileList.appendChild(fileItem);
+          modalContent.style.display = "none";
       });
 
       // Create modal

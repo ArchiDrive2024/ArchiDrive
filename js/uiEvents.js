@@ -66,6 +66,7 @@ function filterFiles() {
               (function(currentFile) {
                   fileItem.querySelector('.view-file-btn').addEventListener('click', () => {
                       fileManager.openFileViewer(currentFile.id, currentFile.name);
+                      
                   });
               })(file);
               
