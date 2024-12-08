@@ -65,7 +65,8 @@ categorizeFiles() {
         'Meccanica': 'Indirizzo Meccanico',
         'Chimica': 'Indirizzo Chimico',
         'Automazione': 'Indirizzo di Automazione',
-        'ScienzeMotiorie': 'Scienze Motorie'
+        'ScienzeMotiorie': 'Scienze Motorie',
+        'Altro': 'Altro'
     };
 
     // Controlla prima per nome cartella
