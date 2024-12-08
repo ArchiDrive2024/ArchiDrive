@@ -835,6 +835,11 @@ h2 {
     background-color: #fa6400;
 }
 
+.global-search-results {
+    border: 2px solid red;
+    width: 100%;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .subject-grid {
