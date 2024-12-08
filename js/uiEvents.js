@@ -10,41 +10,43 @@ function toggleTheme() {
 
 function filterFiles() {
   const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+  const container = document.getElementById('fileList');
+  const resultsCountElement = document.getElementById('search-results-count');
   
+  // Reset display if search is empty
   if (searchTerm === "") {
       fileManager.renderSubjectGrid();
+      if (resultsCountElement) resultsCountElement.textContent = '';
       return;
   }
 
-  // Creare un contenitore per i risultati di ricerca se non esiste
-  let searchResultsContainer = document.getElementById('global-search-results');
-  if (!searchResultsContainer) {
-      searchResultsContainer = document.createElement('div');
-      searchResultsContainer.id = 'global-search-results';
-      searchResultsContainer.className = 'global-search-results';
-      document.body.insertBefore(searchResultsContainer, document.getElementById('fileList'));
-  }
+  // Create a container for global search results
+  container.innerHTML = '';
+  const globalResultsSection = document.createElement('div');
+  globalResultsSection.className = 'global-search-results';
+  
+  // Create header for global search results
+  const searchHeader = document.createElement('h2');
+  searchHeader.textContent = `Risultati della ricerca per: "${searchTerm}"`;
+  globalResultsSection.appendChild(searchHeader);
 
-  // Reset del contenitore dei risultati
-  searchResultsContainer.innerHTML = '<h2>Risultati della ricerca</h2>';
-
-  // Variabile per tracciare i risultati globali
+  // Global results tracking
   const globalResults = [];
 
-  // Ricerca in tutti i file di tutti i subject
+  // Search across ALL files in ALL subjects
   Object.entries(subjectFiles).forEach(([subject, subjectFileList]) => {
       const matchedFiles = subjectFileList.filter(file => 
           file.name.toLowerCase().includes(searchTerm) || 
           (file.description && file.description.toLowerCase().includes(searchTerm))
       );
       
+      // If subject has matching files, create a subject section
       if (matchedFiles.length > 0) {
-          // Creare una sezione per ogni subject con risultati
           const subjectSection = document.createElement('div');
           subjectSection.className = 'search-subject-section';
           
           const subjectTitle = document.createElement('h3');
-          subjectTitle.textContent = `${subject} (${matchedFiles.length} risultati)`;
+          subjectTitle.innerHTML = `${fileManager.getSubjectIcon(subject)} ${subject}`;
           subjectSection.appendChild(subjectTitle);
 
           const fileList = document.createElement('ul');
@@ -64,32 +66,26 @@ function filterFiles() {
           });
 
           subjectSection.appendChild(fileList);
-          searchResultsContainer.appendChild(subjectSection);
+          globalResultsSection.appendChild(subjectSection);
           globalResults.push(...matchedFiles);
       }
   });
 
-  // Nascondere la griglia originale dei subject
-  document.getElementById('fileList').style.display = 'none';
+  // If no results found
+  if (globalResults.length === 0) {
+      const noResultsMessage = document.createElement('p');
+      noResultsMessage.textContent = 'Nessun file trovato';
+      noResultsMessage.className = 'no-results-message';
+      globalResultsSection.appendChild(noResultsMessage);
+  }
 
-  // Aggiornare il conteggio dei risultati
-  const resultsCountElement = document.getElementById('search-results-count');
+  // Update results count
   if (resultsCountElement) {
       resultsCountElement.textContent = `${globalResults.length} risultati trovati`;
   }
 
-  // Aggiungere un pulsante per tornare alla visualizzazione originale
-  if (globalResults.length > 0) {
-      const resetButton = document.createElement('button');
-      resetButton.textContent = 'Torna alla vista originale';
-      resetButton.className = 'reset-search-btn';
-      resetButton.onclick = () => {
-          searchResultsContainer.innerHTML = '';
-          document.getElementById('fileList').style.display = 'grid';
-          document.getElementById('search-results-count').textContent = '';
-      };
-      searchResultsContainer.appendChild(resetButton);
-  }
+  // Append global results to container
+  container.appendChild(globalResultsSection);
 }
 
 function toggleUploadContainer() {
