@@ -168,11 +168,13 @@ class FileManager {
               </div>
               <button class="view-file-btn">Apri</button>
           `;
-          fileItem.querySelector('.view-file-btn').addEventListener("click", function(){
-            this.openFileViewer(file.id, file.name);
-            modalContent.style.display = "none";
-            modal.style.display = "none";
-          });
+          fileItem.querySelector('.view-file-btn').onclick = () => {
+            this.openFileViewer(file.id, file.name); // Esegue la funzione openFileViewer
+            modalContent.style.display = "none"; // Nasconde modalContent
+            modal.style.display = "none"; // Nasconde modal
+        };
+        
+
           fileList.appendChild(fileItem);
           
       });
