@@ -136,7 +136,7 @@ class FileManager {
           'Telecomunicazioni': '📡',
           'Italiano': '📖',
           'Storia': '🏛️',
-          'Inglese': '£',
+          'Inglese': '🇬🇧',
           'Fisica': '⚛️',
           'TTRG': '📏',
           'Scienze Motorie': '🏀',
