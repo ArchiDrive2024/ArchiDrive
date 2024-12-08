@@ -127,20 +127,20 @@ class FileManager {
 
   getSubjectIcon(subject) {
       const icons = {
-          'Matematica': '📐',
           'Indirizzo Informatico': '💻',
+          'Indirizzo di Automazione': '🤖',
+          'Indirizzo Meccanico': '🔧',
+          'Indirizzo Chimico': '🧪',
+          'Matematica': '📐',
+          'Telecomunicazioni': '📡',
           'Italiano': '📖',
           'Storia': '🏛️',
           'Inglese': '🇬🇧',
           'Fisica': '⚛️',
           'TTRG': '📏',
-          'Telecomunicazioni': '📡',
-          'Geografia': '🌍',
+          'Scienze Motorie': '🏀',
           'Diritto': '⚖️',
-          'Indirizzo Meccanico': '🔧',
-          'Indirizzo Chimico': '🧪',
-          'Indirizzo di Automazione': '🤖',
-          'Scienze Motorie': '🏀'
+          'Geografia': '🌍'
       };
       return icons[subject] || '📄';
   }
