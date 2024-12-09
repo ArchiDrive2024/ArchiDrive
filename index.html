@@ -40,42 +40,6 @@
         </button>
 
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSfsWBawrQRmbZIfR_3KNL9jukQFX3SSQdRRDiGj6xipo-W5Rw/viewform?usp=sf_link" target="_blank"><button class="close-btnHome">Carica file</button></a>
-        <!---->
-        <div class="upload-container" id="uploadContainer" style="display: none;">
-            <div class="upload-overlay"></div>
-            <div class="upload-content animate__animated animate__fadeInDown">
-                <div class="upload-header">
-                    <button class="close-btn" onclick="toggleUploadContainer()">×</button>
-                </div>
-                <!--Upload dei file-->
-                <form id="uploadForm" class="uploadForm">
-                    <div align="center">
-                        <h1 class="uploadTitle">Carica nell'ArchiDrive</h1>
-                        <fieldset class="fileName" id="fileName" style="display: none;">
-                            <legend><strong>Inserisci un nome per il file</strong></legend>
-                            <input type="text" class="fileNameInput" id="fileNameInput" placeholder="..." />
-                        </fieldset>
-                        <input type="file" id="fileInput" name="file" class="file" enctype="multipart/form-data" style="display: block;" required>
-                        <br />
-                        <div class="button-container">
-                            <button type="button" class="btnBack" id="btnBack" onclick="fileUploadNext()"
-                                style="display: none;">Torna
-                                indietro</button>
-                            <button type="button" class="file_btnNext" id="file_btnNext" onclick="fileUploadNext()"
-                                style="display: block;">Avanti</button>
-                            <button type="button" class="file_btn" id="file_btn" onclick="uploadFile()"
-                                style="display: none;">Carica</button>
-                        </div>
-                        <div id="loading" class="loading_text">
-                            <img src="assets/logo.png" alt="Loading logo" />
-                        </div>
-                        <div align="center">
-                        <div id="status" class="uploading_result"></div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
 
         <div class="container3">
             <h2>File</h2>
