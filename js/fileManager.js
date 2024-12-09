@@ -45,7 +45,7 @@ categorizeFiles() {
     this.allFiles.forEach(file => {
         const folderPath = file.fullPath || '';
         const subjectMatch = this.determineSubject(file.name, file.description, folderPath);
-        console.log(+ "a" + folderPath + "and " + subjectMatch);
+        console.log("*" + folderPath + "* " + subjectMatch);
         const category = subjectMatch || 'Altro';
         subjectFiles[category].push(file);
     });
