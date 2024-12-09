@@ -71,7 +71,7 @@ determineSubject(fileName, description, fullPath = '') {
         'Indirizzo di Automazione': '/1l7uxr1TvFmkocJRppK2y6Hv_wKNucviD',
         'Scienze Motorie': '/1nEdV-I0TibE589bQJ_bPj4ohg0qmzXGF',
         'Geografia': '/1Il6s0a1srFNCILCfrxEDaYHsgsV8BudZ',
-        'Altro': '/1tlx87JM_2eUqNfqQACdjVIfV0oxLBRWl'
+        'Altro': '/1Il6s0a1srFNCILCfrxEDaYHsgsV8BudZ'
     };
 
     // Controlla se il fullPath contiene uno dei percorsi mappati
