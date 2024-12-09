@@ -38,17 +38,21 @@ async loadFiles() {
 }
 
 categorizeFiles() {
-    Object.keys(subjectFiles).forEach(subject => subjectFiles[subject] = []);
+    // Resetta le categorie
+    Object.keys(subjectFiles).forEach(subject => (subjectFiles[subject] = []));
 
+    // Categorizza i file
     this.allFiles.forEach(file => {
         const folderPath = file.fullPath || '';
         const subjectMatch = this.determineSubject(file.name, file.description, folderPath);
-        if (subjectMatch) {
-            subjectFiles[subjectMatch].push(file);
-        } else {
-            subjectFiles['Altro'].push(file);
-        }
+
+        // Se non corrisponde, metti in 'Altro'
+        const category = subjectMatch || 'Altro';
+        subjectFiles[category].push(file);
     });
+
+    // Log per debug
+    console.log("Categorie aggiornate:", subjectFiles);
 }
 
 determineSubject(fileName, description, fullPath = '') {
@@ -70,13 +74,16 @@ determineSubject(fileName, description, fullPath = '') {
         'Altro': '/1tlx87JM_2eUqNfqQACdjVIfV0oxLBRWl'
     };
 
-    // Check if the fullPath contains any of the mapped folder paths
+    // Controlla se il fullPath contiene uno dei percorsi mappati
     for (const [subject, folderPath] of Object.entries(folderSubjectMap)) {
         if (fullPath.includes(folderPath)) {
-            console.log(subject);
+            console.log(`File assegnato a: ${subject}`);
             return subject;
         }
     }
+
+    // Valore predefinito
+    return 'Altro';
 }
 
   renderSubjectGrid() {
