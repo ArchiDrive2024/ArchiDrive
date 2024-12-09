@@ -73,6 +73,7 @@ determineSubject(fileName, description, fullPath = '') {
     // Check if the fullPath contains any of the mapped folder paths
     for (const [subject, folderPath] of Object.entries(folderSubjectMap)) {
         if (fullPath.includes(folderPath)) {
+            console.log(subject);
             return subject;
         }
     }
