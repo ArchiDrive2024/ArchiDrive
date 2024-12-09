@@ -49,7 +49,7 @@ categorizeFiles() {
     Object.keys(subjectFiles).forEach(subject => (subjectFiles[subject] = []));
 
     this.allFiles.forEach(file => {
-        const folderPath = file.fullPath || '';
+        const folderPath = file.id || '';
         const subjectMatch = this.determineSubject(file.name, file.description, folderPath);
         
         console.log("File categorizzato:", file.name, "| Path:", folderPath, "| Categoria:", subjectMatch);
