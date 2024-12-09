@@ -57,7 +57,7 @@ categorizeFiles() {
 
 determineSubject(fileName, description, fullPath = '') {
     const folderSubjectMap = {
-        'Matematica': '/1d2Ve7r63WfPLkn6cv6F-dDQOzu22tBBH',
+        'Matematica': '/1O6fI9sSjWfzCwloXZJHqLykx2NstQKC6',
         'Indirizzo Informatico': '/1viclutz7KMs5c29MwwhcK85oc5SRRzxO',
         'Storia': '/1ywtyKG6T7I-M65ytZkzXzfX7oI7ZGxxp',
         'Italiano': '/1VUxHXLeh9pDs4Z7OZNsckVImzcmz93Md',
@@ -67,7 +67,7 @@ determineSubject(fileName, description, fullPath = '') {
         'Telecomunicazioni': '/1I-xU5JFozX1g_6Aw28M34SNWEqBOiEg0',
         'Diritto': '/1JpFR3D4E8JytTOxovlQOhaL5E99xnP3Y',
         'Indirizzo Meccanico': '/1YAkiFCpiea05HepoZa3bxO_pjipXU49F',
-        'Indirizzo Chimico': '/1O6fI9sSjWfzCwloXZJHqLykx2NstQKC6',
+        'Indirizzo Chimico': '/1d2Ve7r63WfPLkn6cv6F-dDQOzu22tBBH',
         'Indirizzo di Automazione': '/1l7uxr1TvFmkocJRppK2y6Hv_wKNucviD',
         'Scienze Motorie': '/1nEdV-I0TibE589bQJ_bPj4ohg0qmzXGF',
         'Geografia': '/1Il6s0a1srFNCILCfrxEDaYHsgsV8BudZ',
