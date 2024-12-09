@@ -50,7 +50,7 @@ categorizeFiles() {
 
     this.allFiles.forEach(file => {
         const folderPath = file.id || '';
-        const subjectMatch = this.determineSubject(file.name, file.description, folderPath);
+        const subjectMatch = this.determineSubject(folderPath);
         
         console.log("File categorizzato:", file.name, "| Path:", folderPath, "| Categoria:", subjectMatch);
         
@@ -61,7 +61,7 @@ categorizeFiles() {
     console.log("Categorie aggiornate:", subjectFiles);
 }
 
-determineSubject(fileName, description, fullPath = '') {
+determineSubject(fullPath = '') {
     const folderSubjectMap = {
         'Matematica': '1O6fI9sSjWfzCwloXZJHqLykx2NstQKC6',
         'Indirizzo Informatico': '1viclutz7KMs5c29MwwhcK85oc5SRRzxO',
@@ -82,7 +82,7 @@ determineSubject(fileName, description, fullPath = '') {
 
     // Controlla se il fullPath contiene uno dei percorsi mappati
     for (const [subject, folderPath] of Object.entries(folderSubjectMap)) {
-        if (fullPath.includes(folderPath)) {
+        if (fullPath === folderPath) {
             console.log(`File assegnato a: ${subject}`);
             return subject;
         }
