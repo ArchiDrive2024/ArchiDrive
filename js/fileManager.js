@@ -34,7 +34,7 @@ class FileManager {
             console.log("\n\n\n\n\n\n" + file.parents[0] + "\n\n\n\n\n\n");
             return {
                 ...file,
-                fullPath: file.id || ''
+                fullPath: file.parents[0] || ''
             };
         });
 
@@ -49,7 +49,7 @@ categorizeFiles() {
     Object.keys(subjectFiles).forEach(subject => (subjectFiles[subject] = []));
 
     this.allFiles.forEach(file => {
-        const folderPath = file.id || '';
+        const folderPath = file.parents[0] || '';
         const subjectMatch = this.determineSubject(folderPath);
         
         console.log("File categorizzato:", file.name, "| Path:", folderPath, "| Categoria:", subjectMatch);
