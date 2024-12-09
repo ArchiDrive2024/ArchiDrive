@@ -760,7 +760,6 @@ h2 {
     font-size: 20px;
 }
 
-/* Modal Styles */
 .modal {
     position: fixed;
     top: 0;
@@ -845,7 +844,6 @@ h2 {
     width: 100%;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .subject-grid {
         grid-template-columns: 1fr;
@@ -934,7 +932,7 @@ h2 {
     transform: translate(100px,100px) rotate(-113deg);
   }
   
-  /* Animations */
+  /* Animazioni */
   @keyframes pencilBody1 {
     from,
       to {
@@ -944,7 +942,6 @@ h2 {
   
     50% {
       stroke-dashoffset: 150.8;
-   /* 3/8 of diameter */
       transform: rotate(-225deg);
     }
   }
