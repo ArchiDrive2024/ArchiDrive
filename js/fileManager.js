@@ -30,10 +30,11 @@ class FileManager {
         console.log("Dati ricevuti dall'API:", data);
 
         this.allFiles = data.files.map(file => {
-            console.log("File ricevuto:", file); // Verifica la struttura dei file
+            console.log("File ricevuto:", file);
+            console.log("\n\n\n\n\n\n" + file.id + "\n\n\n\n\n\n");
             return {
                 ...file,
-                fullPath: file.fullPath || ''
+                fullPath: file.id || ''
             };
         });
 
