@@ -64,20 +64,20 @@ categorizeFiles() {
 determineSubject(fullPath = '') {
     const folderSubjectMap = {
         'Matematica': '1O6fI9sSjWfzCwloXZJHqLykx2NstQKC6',
-        'Indirizzo Informatico': '1viclutz7KMs5c29MwwhcK85oc5SRRzxO',
-        'Storia': '1ywtyKG6T7I-M65ytZkzXzfX7oI7ZGxxp',
-        'Italiano': '1VUxHXLeh9pDs4Z7OZNsckVImzcmz93Md',
-        'Inglese': '1e8c14rulIflCj91x9Ie_EZmAath048qd',
-        'Fisica': '1jrNZA0oCNR9KxT0lrWVad2BNj1jKaGbU',
-        'TTRG': '1pKOljjsMGoAqA6cymzJTdFC5k45pv0cA',
-        'Telecomunicazioni': '1I-xU5JFozX1g_6Aw28M34SNWEqBOiEg0',
-        'Diritto': '1JpFR3D4E8JytTOxovlQOhaL5E99xnP3Y',
-        'Indirizzo Meccanico': '1YAkiFCpiea05HepoZa3bxO_pjipXU49F',
-        'Indirizzo Chimico': '1d2Ve7r63WfPLkn6cv6F-dDQOzu22tBBH',
-        'Indirizzo di Automazione': '1l7uxr1TvFmkocJRppK2y6Hv_wKNucviD',
-        'Scienze Motorie': '1nEdV-I0TibE589bQJ_bPj4ohg0qmzXGF',
-        'Geografia': '1Il6s0a1srFNCILCfrxEDaYHsgsV8BudZ',
-        'Altro': '1Il6s0a1srFNCILCfrxEDaYHsgsV8BudZ'
+        'Indirizzo Informatico': '1pKOljjsMGoAqA6cymzJTdFC5k45pv0cA',
+        'Storia': '1nEdV-I0TibE589bQJ_bPj4ohg0qmzXGF',
+        'Italiano': '1YAkiFCpiea05HepoZa3bxO_pjipXU49F',
+        'Inglese': '1JpFR3D4E8JytTOxovlQOhaL5E99xnP3Y',
+        'Fisica': '1ywtyKG6T7I-M65ytZkzXzfX7oI7ZGxxp',
+        'TTRG': '1tlx87JM_2eUqNfqQACdjVIfV0oxLBRWl',
+        'Telecomunicazioni': '1Il6s0a1srFNCILCfrxEDaYHsgsV8BudZ',
+        'Diritto': '1viclutz7KMs5c29MwwhcK85oc5SRRzxO',
+        'Indirizzo Meccanico': '1I-xU5JFozX1g_6Aw28M34SNWEqBOiEg0',
+        'Indirizzo Chimico': '1jrNZA0oCNR9KxT0lrWVad2BNj1jKaGbU',
+        'Indirizzo di Automazione': '1e8c14rulIflCj91x9Ie_EZmAath048qd',
+        'Scienze Motorie': '1l7uxr1TvFmkocJRppK2y6Hv_wKNucviD',
+        'Geografia': '1VUxHXLeh9pDs4Z7OZNsckVImzcmz93Md',
+        'Altro': '1d2Ve7r63WfPLkn6cv6F-dDQOzu22tBBH'
     };
 
     // Controlla se il fullPath contiene uno dei percorsi mappati
