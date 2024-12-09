@@ -41,7 +41,8 @@ categorizeFiles() {
     Object.keys(subjectFiles).forEach(subject => subjectFiles[subject] = []);
 
     this.allFiles.forEach(file => {
-        const subjectMatch = this.determineSubject(file.name, file.description, file.fullPath);
+        const folderPath = file.fullPath || '';
+        const subjectMatch = this.determineSubject(file.name, file.description, folderPath);
         if (subjectMatch) {
             subjectFiles[subjectMatch].push(file);
         } else {
@@ -50,58 +51,31 @@ categorizeFiles() {
     });
 }
 
-  determineSubject(fileName, description, fullPath = '') {
+determineSubject(fileName, description, fullPath = '') {
     const folderSubjectMap = {
-        '1d2Ve7r63WfPLkn6cv6F-dDQOzu22tBBH': 'Matematica',
-        '1viclutz7KMs5c29MwwhcK85oc5SRRzxO': 'Indirizzo Informatico',
-        '1ywtyKG6T7I-M65ytZkzXzfX7oI7ZGxxp': 'Storia',
-        '1VUxHXLeh9pDs4Z7OZNsckVImzcmz93Md': 'Italiano',
-        '1e8c14rulIflCj91x9Ie_EZmAath048qd': 'Inglese',
-        '1jrNZA0oCNR9KxT0lrWVad2BNj1jKaGbU': 'Fisica',
-        '1pKOljjsMGoAqA6cymzJTdFC5k45pv0cA': 'TTRG',
-        '1I-xU5JFozX1g_6Aw28M34SNWEqBOiEg0': 'Telecomunicazioni',
-        '1JpFR3D4E8JytTOxovlQOhaL5E99xnP3Y': 'Diritto',
-        '1YAkiFCpiea05HepoZa3bxO_pjipXU49F': 'Indirizzo Meccanico',
-        '1O6fI9sSjWfzCwloXZJHqLykx2NstQKC6': 'Indirizzo Chimico',
-        '1l7uxr1TvFmkocJRppK2y6Hv_wKNucviD': 'Indirizzo di Automazione',
-        '1nEdV-I0TibE589bQJ_bPj4ohg0qmzXGF': 'Scienze Motorie',
-        '1Il6s0a1srFNCILCfrxEDaYHsgsV8BudZ': 'Geografia',
-        '1tlx87JM_2eUqNfqQACdjVIfV0oxLBRWl': 'Altro'
+        'Matematica': '/1d2Ve7r63WfPLkn6cv6F-dDQOzu22tBBH',
+        'Indirizzo Informatico': '/1viclutz7KMs5c29MwwhcK85oc5SRRzxO',
+        'Storia': '/1ywtyKG6T7I-M65ytZkzXzfX7oI7ZGxxp',
+        'Italiano': '/1VUxHXLeh9pDs4Z7OZNsckVImzcmz93Md',
+        'Inglese': '/1e8c14rulIflCj91x9Ie_EZmAath048qd',
+        'Fisica': '/1jrNZA0oCNR9KxT0lrWVad2BNj1jKaGbU',
+        'TTRG': '/1pKOljjsMGoAqA6cymzJTdFC5k45pv0cA',
+        'Telecomunicazioni': '/1I-xU5JFozX1g_6Aw28M34SNWEqBOiEg0',
+        'Diritto': '/1JpFR3D4E8JytTOxovlQOhaL5E99xnP3Y',
+        'Indirizzo Meccanico': '/1YAkiFCpiea05HepoZa3bxO_pjipXU49F',
+        'Indirizzo Chimico': '/1O6fI9sSjWfzCwloXZJHqLykx2NstQKC6',
+        'Indirizzo di Automazione': '/1l7uxr1TvFmkocJRppK2y6Hv_wKNucviD',
+        'Scienze Motorie': '/1nEdV-I0TibE589bQJ_bPj4ohg0qmzXGF',
+        'Geografia': '/1Il6s0a1srFNCILCfrxEDaYHsgsV8BudZ',
+        'Altro': '/1tlx87JM_2eUqNfqQACdjVIfV0oxLBRWl'
     };
 
-    // Controlla prima per nome cartella
-    const matchedSubject = Object.keys(folderSubjectMap).find(folder => 
-        fullPath.toLowerCase().includes(folder.toLowerCase())
-    );
-
-    if (matchedSubject) {
-        return folderSubjectMap[matchedSubject];
+    // Check if the fullPath contains any of the mapped folder paths
+    for (const [subject, folderPath] of Object.entries(folderSubjectMap)) {
+        if (fullPath.includes(folderPath)) {
+            return subject;
+        }
     }
-    
-      const subjectKeywords = {
-          'Matematica': ['math', 'matematica', 'algebra', 'geometria', 'calcolo'],
-          'Indirizzo Informatico': ['coding', 'programmazione', 'informatica', 'code', 'software'],
-          'Italiano': ['italiano', 'letteratura', 'grammatica', 'analisi'],
-          'Storia': ['storia', 'storico', 'evento', 'cronologia'],
-          'Inglese': ['english', 'lingua inglese', 'grammar', 'vocabulary'],
-          'Fisica': ['fisica', 'energia', 'movimento', 'fisica'],
-          'TTRG': ['ttrg', 'disegno', 'tecnico', 'progettazione'],
-          'Telecomunicazioni': ['telecomunicazioni', 'network', 'comunicazione'],
-          'Geografia': ['geografia', 'mappe', 'territorio', 'geologia'],
-          'Diritto': ['diritto', 'legge', 'giuridico', 'normativa'],
-          'Indirizzo Meccanico': ['meccanica', 'motore', 'macchina', 'ingranaggio'],
-          'Indirizzo Chimico': ['chimica', 'reazione', 'molecola', 'elemento'],
-          'Indirizzo di Automazione': ['automazione', 'robotica', 'controllo', 'sistema'],
-          'Scienze Motorie': ['sport', 'movimento', 'fisico', 'attività']
-      };
-
-      const searchText = (fileName + ' ' + (description || '') + ' ' + fullPath).toLowerCase();
-
-      for (const [subject, keywords] of Object.entries(subjectKeywords)) {
-          if (keywords.some(keyword => searchText.includes(keyword))) {
-              return subject;
-          }
-      }
   
       return null;
     }
