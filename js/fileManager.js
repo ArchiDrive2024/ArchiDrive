@@ -1,4 +1,3 @@
-// Updated file categorization and management system
 let subjectFiles = {
   'Indirizzo Informatico': [],
   'Indirizzo di Automazione': [],
@@ -27,11 +26,11 @@ class FileManager {
         const response = await fetch("https://archidriveserver.x10.mx/get_files.php");
         const data = await response.json();
 
-        console.log("Dati ricevuti dall'API:", data);
+        //console.log("Dati ricevuti dall'API:", data);
 
         this.allFiles = data.files.map(file => {
-            console.log("File ricevuto:", file);
-            console.log("\n\n\n\n\n\n" + file.parents[0] + "\n\n\n\n\n\n");
+            //console.log("File ricevuto:", file);
+            //console.log("\n\n\n\n\n\n" + file.parents[0] + "\n\n\n\n\n\n");
             return {
                 ...file,
                 fullPath: file.parents[0] || ''
@@ -52,13 +51,13 @@ categorizeFiles() {
         const folderPath = file.parents[0] || '';
         const subjectMatch = this.determineSubject(folderPath);
         
-        console.log("File categorizzato:", file.name, "| Path:", folderPath, "| Categoria:", subjectMatch);
+        //console.log("File categorizzato:", file.name, "| Path:", folderPath, "| Categoria:", subjectMatch);
         
         const category = subjectMatch || 'Altro';
         subjectFiles[category].push(file);
     });
 
-    console.log("Categorie aggiornate:", subjectFiles);
+    //console.log("Categorie aggiornate:", subjectFiles);
 }
 
 determineSubject(fullPath = '') {
@@ -80,10 +79,9 @@ determineSubject(fullPath = '') {
         'Altro': '1d2Ve7r63WfPLkn6cv6F-dDQOzu22tBBH'
     };
 
-    // Controlla se il fullPath contiene uno dei percorsi mappati
     for (const [subject, folderPath] of Object.entries(folderSubjectMap)) {
         if (fullPath === folderPath) {
-            console.log(`File assegnato a: ${subject}`);
+            //console.log(`File assegnato a: ${subject}`);
             return subject;
         }
     }
@@ -100,7 +98,6 @@ determineSubject(fullPath = '') {
           const subjectCard = document.createElement('div');
           subjectCard.className = 'subject-card';
           
-          // Subject icon and name
           const subjectHeader = document.createElement('div');
           subjectHeader.className = 'subject-header';
           subjectHeader.innerHTML = `
@@ -109,7 +106,6 @@ determineSubject(fullPath = '') {
               <span class="file-count">${files.length} file</span>
           `;
 
-          // File list
           const fileList = document.createElement('ul');
           fileList.className = 'subject-file-list';
           
@@ -123,7 +119,6 @@ determineSubject(fullPath = '') {
               fileList.appendChild(fileItem);
           });
 
-          // View all button
           const viewAllBtn = document.createElement('button');
           viewAllBtn.textContent = 'Vedi tutti i file';
           viewAllBtn.className = 'view-all-btn';
@@ -188,20 +183,18 @@ determineSubject(fullPath = '') {
           
       });
 
-      // Create modal
       const modal = document.createElement('div');
       modal.className = 'modal';
       modal.appendChild(modalContent);
       document.body.appendChild(modal);
 
-      // Close modal functionality
       modalContent.querySelector('.close-modal').onclick = () => {
           document.body.removeChild(modal);
       };
   }
 
   openFileViewer(fileId, fileName) {
-      // Existing file viewer logic
+
       const modal = document.getElementById("fileViewerModal");
       const content = document.getElementById("fileContent");
       const loading = document.getElementById("loadingViewer");
@@ -229,10 +222,8 @@ determineSubject(fullPath = '') {
   }
 }
 
-// Initialize file manager
 const fileManager = new FileManager();
 
-// Replace existing load files function
 function loadDriveFiles() {
   fileManager.loadFiles();
 }
