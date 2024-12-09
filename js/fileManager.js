@@ -31,7 +31,7 @@ class FileManager {
 
         this.allFiles = data.files.map(file => {
             console.log("File ricevuto:", file);
-            console.log("\n\n\n\n\n\n" + file.id + "\n\n\n\n\n\n");
+            console.log("\n\n\n\n\n\n" + file.parents[0] + "\n\n\n\n\n\n");
             return {
                 ...file,
                 fullPath: file.id || ''
