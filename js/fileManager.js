@@ -22,14 +22,21 @@ class FileManager {
       this.allFiles = [];
   }
 
-async loadFiles() {
+  async loadFiles() {
     try {
         const response = await fetch("https://archidriveserver.x10.mx/get_files.php");
         const data = await response.json();
-        this.allFiles = data.files.map(file => ({
-            ...file,
-            fullPath: file.fullPath || ''
-        }));
+
+        console.log("Dati ricevuti dall'API:", data);
+
+        this.allFiles = data.files.map(file => {
+            console.log("File ricevuto:", file); // Verifica la struttura dei file
+            return {
+                ...file,
+                fullPath: file.fullPath || ''
+            };
+        });
+
         this.categorizeFiles();
         this.renderSubjectGrid();
     } catch (error) {
@@ -38,19 +45,18 @@ async loadFiles() {
 }
 
 categorizeFiles() {
-    // Resetta le categorie
     Object.keys(subjectFiles).forEach(subject => (subjectFiles[subject] = []));
 
-    // Categorizza i file
     this.allFiles.forEach(file => {
         const folderPath = file.fullPath || '';
         const subjectMatch = this.determineSubject(file.name, file.description, folderPath);
-        console.log("*" + folderPath + "* " + subjectMatch);
+        
+        console.log("File categorizzato:", file.name, "| Path:", folderPath, "| Categoria:", subjectMatch);
+        
         const category = subjectMatch || 'Altro';
         subjectFiles[category].push(file);
     });
 
-    // Log per debug
     console.log("Categorie aggiornate:", subjectFiles);
 }
 
