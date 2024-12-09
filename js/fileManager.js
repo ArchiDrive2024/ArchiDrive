@@ -225,7 +225,7 @@ determineSubject(fullPath = '') {
 const fileManager = new FileManager();
 
 function loadDriveFiles() {
-  fileManager.loadFiles();
+    return fileManager.loadFiles();
 }
 
 function closeFileViewer() {
