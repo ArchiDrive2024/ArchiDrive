@@ -31,11 +31,9 @@
     const loader = document.getElementById('loader');
     const loaderBackground = document.getElementById('loaderBackground');
 
-    // Mostra il loader e lo sfondo
     loader.style.display = 'block';
     loaderBackground.style.display = 'block';
 
-    // Nascondi al termine del caricamento
     loadDriveFiles().then(() => {
         loader.style.display = 'none';
         loaderBackground.style.display = 'none';
