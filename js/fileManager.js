@@ -76,9 +76,7 @@ determineSubject(fileName, description, fullPath = '') {
             return subject;
         }
     }
-  
-      return null;
-    }
+}
 
   renderSubjectGrid() {
       const container = document.getElementById('fileList');
