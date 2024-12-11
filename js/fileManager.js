@@ -1,3 +1,21 @@
+let subjectFiles = {
+  'Indirizzo Informatico': [],
+  'Indirizzo di Automazione': [],
+  'Indirizzo Meccanico': [],
+  'Indirizzo Chimico': [],
+  'Matematica': [],
+  'Telecomunicazioni': [],
+  'Italiano': [],
+  'Storia': [],
+  'Inglese': [],
+  'Fisica': [],
+  'TTRG': [],
+  'Scienze Motorie': [],
+  'Diritto': [],
+  'Geografia': [],
+  'Altro': []
+};
+
 class FileManager {
     constructor() {
         this.allFiles = [];
@@ -83,6 +101,7 @@ class FileManager {
             fileList.className = 'subject-file-list';
             
             if (files.length === 0) {
+                // Aggiungi un messaggio per categorie vuote
                 const emptyMessage = document.createElement('div');
                 emptyMessage.className = 'empty-category-message';
                 emptyMessage.textContent = 'Nessun file in questa categoria';
