@@ -1068,3 +1068,14 @@ h2 {
     text-decoration: none;
     color: #888;
 }
+
+.feedbackBtn {
+    text-decoration: none;
+    color: red;
+}
+
+.feedbackBtn {
+    text-align: center;
+    color: red;
+    font-size: 20px;
+}
