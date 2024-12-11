@@ -84,7 +84,7 @@ class FileManager {
         const container = document.getElementById('fileList');
         container.innerHTML = '';
         container.className = 'subject-grid';
-  
+    
         Object.entries(subjectFiles).forEach(([subject, files]) => {
             const subjectCard = document.createElement('div');
             subjectCard.className = 'subject-card';
@@ -96,16 +96,15 @@ class FileManager {
                 <h2>${subject}</h2>
                 <span class="file-count">${files.length} file</span>
             `;
-  
+    
             const fileList = document.createElement('ul');
             fileList.className = 'subject-file-list';
             
             if (files.length === 0) {
-                // Aggiungi un messaggio per categorie vuote
-                const emptyMessage = document.createElement('div');
+                const emptyMessage = document.createElement('li');
                 emptyMessage.className = 'empty-category-message';
-                emptyMessage.textContent = 'Nessun file in questa categoria';
-                subjectCard.appendChild(emptyMessage);
+                emptyMessage.textContent = 'Carica un file per primo!';
+                fileList.appendChild(emptyMessage);
             } else {
                 files.slice(0, 3).forEach(file => {
                     const fileItem = document.createElement('li');
@@ -116,14 +115,14 @@ class FileManager {
                     fileItem.onclick = () => this.openFileViewer(file.id, file.name);
                     fileList.appendChild(fileItem);
                 });
-  
+    
                 const viewAllBtn = document.createElement('button');
                 viewAllBtn.textContent = 'Vedi tutti i file';
                 viewAllBtn.className = 'view-all-btn';
                 viewAllBtn.onclick = () => this.showSubjectFiles(subject);
                 subjectCard.appendChild(viewAllBtn);
             }
-  
+    
             subjectCard.appendChild(subjectHeader);
             subjectCard.appendChild(fileList);
             container.appendChild(subjectCard);
