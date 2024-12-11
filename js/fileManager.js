@@ -115,16 +115,16 @@ class FileManager {
                     fileItem.onclick = () => this.openFileViewer(file.id, file.name);
                     fileList.appendChild(fileItem);
                 });
-    
-                const viewAllBtn = document.createElement('button');
-                viewAllBtn.textContent = 'Vedi tutti i file';
-                viewAllBtn.className = 'view-all-btn';
-                viewAllBtn.onclick = () => this.showSubjectFiles(subject);
-                subjectCard.appendChild(viewAllBtn);
             }
+    
+            const viewAllBtn = document.createElement('button');
+            viewAllBtn.textContent = 'Vedi tutti i file';
+            viewAllBtn.className = 'view-all-btn';
+            viewAllBtn.onclick = () => this.showSubjectFiles(subject);
     
             subjectCard.appendChild(subjectHeader);
             subjectCard.appendChild(fileList);
+            subjectCard.appendChild(viewAllBtn);
             container.appendChild(subjectCard);
         });
     }
