@@ -102,8 +102,10 @@ class FileManager {
             
             if (files.length === 0) {
                 const emptyMessage = document.createElement('li');
+                const LINK = 'https://docs.google.com/forms/d/e/1FAIpQLSfsWBawrQRmbZIfR_3KNL9jukQFX3SSQdRRDiGj6xipo-W5Rw/viewform?usp=sf_link';
                 emptyMessage.className = 'empty-category-message';
                 emptyMessage.textContent = 'Carica un file per primo!';
+                emptyMessage.innerHTML = `<a href="${LINK}" target="_blank">${file.name}</a>`;
                 fileList.appendChild(emptyMessage);
             } else {
                 files.slice(0, 3).forEach(file => {
