@@ -72,7 +72,7 @@ let subjectFiles = {
               'Scienze Motorie': '1l7uxr1TvFmkocJRppK2y6Hv_wKNucviD',
               'Geografia': '1VUxHXLeh9pDs4Z7OZNsckVImzcmz93Md',
               'Scienze Della Terra': '1GzneZx3KAqEEleuPxP4oYgWQwO2zYiwb',
-              'Biologia': '1yEDUO3jNyULtxw5R8qixMWs8oaffIw7Q',
+              'Biologia': '1f8AjftQnxoVUnTrM5lJbrPxC-BoiHm7q',
               'Ed. Civica': '15sBgNJOGVtVdt35GeWT9_qK9TpF7PHSv',
               'Altro': '1d2Ve7r63WfPLkn6cv6F-dDQOzu22tBBH'
           };
