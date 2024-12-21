@@ -1,1 +1,243 @@
-const _0x2e6cb2=_0x406c;(function(_0x2be485,_0x9afd98){const _0x77eafb=_0x406c,_0x54a08b=_0x2be485();while(!![]){try{const _0x1d0013=-parseInt(_0x77eafb(0x12b))/0x1+-parseInt(_0x77eafb(0x11a))/0x2+parseInt(_0x77eafb(0x143))/0x3+parseInt(_0x77eafb(0x102))/0x4+parseInt(_0x77eafb(0x129))/0x5*(-parseInt(_0x77eafb(0x117))/0x6)+-parseInt(_0x77eafb(0x15e))/0x7*(parseInt(_0x77eafb(0x149))/0x8)+-parseInt(_0x77eafb(0x124))/0x9*(-parseInt(_0x77eafb(0x154))/0xa);if(_0x1d0013===_0x9afd98)break;else _0x54a08b['push'](_0x54a08b['shift']());}catch(_0x5bcc54){_0x54a08b['push'](_0x54a08b['shift']());}}}(_0x38ec,0x73047));let subjectFiles={'Indirizzo\x20Informatico':[],'Indirizzo\x20di\x20Automazione':[],'Indirizzo\x20Meccanico':[],'Indirizzo\x20Chimico':[],'Matematica':[],'Telecomunicazioni':[],'Italiano':[],'Storia':[],'Inglese':[],'Fisica':[],'TTRG':[],'Scienze\x20Motorie':[],'Diritto':[],'Geografia':[],'Scienze\x20Della\x20Terra':[],'Biologia':[],'Ed.\x20Civica':[],'Altro':[]};function _0x406c(_0x18b2db,_0x13a25c){const _0x38ec62=_0x38ec();return _0x406c=function(_0x406cc8,_0x3af512){_0x406cc8=_0x406cc8-0x100;let _0x3498a7=_0x38ec62[_0x406cc8];return _0x3498a7;},_0x406c(_0x18b2db,_0x13a25c);}class FileManager{constructor(){this['allFiles']=[];}async['loadFiles'](){const _0x1350d8=_0x406c;try{const _0x1c83a9=await fetch(_0x1350d8(0x104)),_0x3cdec5=await _0x1c83a9['json']();this['allFiles']=_0x3cdec5[_0x1350d8(0x101)][_0x1350d8(0x118)](_0x45ec24=>{const _0x424f0f=_0x1350d8;return{..._0x45ec24,'fullPath':_0x45ec24[_0x424f0f(0x145)][0x0]||''};}),this['categorizeFiles'](),this[_0x1350d8(0x10b)]();}catch(_0x3d2c37){console['error'](_0x1350d8(0x11c),_0x3d2c37);}}[_0x2e6cb2(0x160)](){const _0x275583=_0x2e6cb2;Object[_0x275583(0x112)](subjectFiles)['forEach'](_0x1e68a5=>subjectFiles[_0x1e68a5]=[]),this[_0x275583(0x138)][_0x275583(0x13f)](_0x492a6c=>{const _0x469318=_0x275583,_0x22ab35=_0x492a6c[_0x469318(0x145)][0x0]||'',_0x203d2d=this[_0x469318(0x14f)](_0x22ab35),_0xfdec3=_0x203d2d||_0x469318(0x121);subjectFiles[_0xfdec3]['push'](_0x492a6c);});}[_0x2e6cb2(0x14f)](_0x14a153=''){const _0x19f99f=_0x2e6cb2,_0x158034={'Matematica':_0x19f99f(0x130),'Indirizzo\x20Informatico':_0x19f99f(0x115),'Storia':_0x19f99f(0x11d),'Italiano':_0x19f99f(0x14d),'Inglese':'1JpFR3D4E8JytTOxovlQOhaL5E99xnP3Y','Fisica':_0x19f99f(0x116),'TTRG':_0x19f99f(0x148),'Telecomunicazioni':_0x19f99f(0x108),'Diritto':_0x19f99f(0x153),'Indirizzo\x20Meccanico':_0x19f99f(0x120),'Indirizzo\x20Chimico':_0x19f99f(0x12a),'Indirizzo\x20di\x20Automazione':_0x19f99f(0x158),'Scienze\x20Motorie':_0x19f99f(0x144),'Geografia':_0x19f99f(0x12f),'Scienze\x20Della\x20Terra':_0x19f99f(0x12c),'Biologia':_0x19f99f(0x111),'Ed.\x20Civica':'15sBgNJOGVtVdt35GeWT9_qK9TpF7PHSv','Altro':_0x19f99f(0x10c)};for(const [_0x5984ce,_0x6281e0]of Object[_0x19f99f(0x125)](_0x158034)){if(_0x14a153===_0x6281e0)return _0x5984ce;}return _0x19f99f(0x121);}[_0x2e6cb2(0x10b)](){const _0x5cafac=_0x2e6cb2,_0x2d7bf7=document[_0x5cafac(0x156)](_0x5cafac(0x131));_0x2d7bf7['innerHTML']='',_0x2d7bf7[_0x5cafac(0x109)]=_0x5cafac(0x135),Object['entries'](subjectFiles)[_0x5cafac(0x13f)](([_0x4f34e5,_0x3341a3])=>{const _0x2dbd54=_0x5cafac,_0x3b8590=document['createElement']('div');_0x3b8590[_0x2dbd54(0x109)]=_0x2dbd54(0x10e);const _0x5e815e=document[_0x2dbd54(0x13b)](_0x2dbd54(0x15c));_0x5e815e[_0x2dbd54(0x109)]=_0x2dbd54(0x14a),_0x5e815e[_0x2dbd54(0x159)]=_0x2dbd54(0x119)+this[_0x2dbd54(0x107)](_0x4f34e5)+_0x2dbd54(0x127)+_0x4f34e5+'</h2>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22file-count\x22>'+_0x3341a3['length']+_0x2dbd54(0x136);const _0x5a6d42=document[_0x2dbd54(0x13b)]('ul');_0x5a6d42[_0x2dbd54(0x109)]=_0x2dbd54(0x13e);if(_0x3341a3[_0x2dbd54(0x105)]===0x0){const _0x20fd88=document[_0x2dbd54(0x13b)]('li'),_0x4f8fcc=_0x2dbd54(0x142);_0x20fd88[_0x2dbd54(0x109)]='empty-category-message',_0x20fd88[_0x2dbd54(0x159)]=_0x2dbd54(0x146)+_0x4f8fcc+_0x2dbd54(0x155),_0x5a6d42[_0x2dbd54(0x14e)](_0x20fd88);}else _0x3341a3[_0x2dbd54(0x141)](0x0,0x3)[_0x2dbd54(0x13f)](_0x2577e6=>{const _0x2a318a=_0x2dbd54,_0x2f7c97=document['createElement']('li');_0x2f7c97[_0x2a318a(0x159)]=_0x2a318a(0x15b)+_0x2577e6[_0x2a318a(0x128)]+_0x2a318a(0x13d)+(_0x2577e6[_0x2a318a(0x147)]||'Nessuna\x20descrizione')+_0x2a318a(0x10f),_0x2f7c97[_0x2a318a(0x11e)]=()=>this[_0x2a318a(0x137)](_0x2577e6['id'],_0x2577e6[_0x2a318a(0x128)]),_0x5a6d42[_0x2a318a(0x14e)](_0x2f7c97);});const _0x3d3ba9=document[_0x2dbd54(0x13b)](_0x2dbd54(0x110));_0x3d3ba9[_0x2dbd54(0x14b)]=_0x2dbd54(0x12e),_0x3d3ba9[_0x2dbd54(0x109)]='view-all-btn',_0x3d3ba9[_0x2dbd54(0x11e)]=()=>this['showSubjectFiles'](_0x4f34e5),_0x3b8590['appendChild'](_0x5e815e),_0x3b8590[_0x2dbd54(0x14e)](_0x5a6d42),_0x3b8590[_0x2dbd54(0x14e)](_0x3d3ba9),_0x2d7bf7[_0x2dbd54(0x14e)](_0x3b8590);});}[_0x2e6cb2(0x107)](_0x3f46f9){const _0x3eceac=_0x2e6cb2,_0x430860={'Indirizzo\x20Informatico':'💻','Indirizzo\x20di\x20Automazione':'🤖','Indirizzo\x20Meccanico':'🔧','Indirizzo\x20Chimico':'🧪','Matematica':'📐','Telecomunicazioni':'📡','Italiano':'📖','Storia':'🏛️','Inglese':_0x3eceac(0x122),'Fisica':'⚛️','TTRG':'📏','Scienze\x20Motorie':'🏀','Diritto':'⚖️','Geografia':'🌍','Scienze\x20Della\x20Terra':'🔭','Biologia':'🧬','Ed.\x20Civica':'📋','Altro':'📃'};return _0x430860[_0x3f46f9]||'📄';}[_0x2e6cb2(0x123)](_0x5d3f0a){const _0x5850cc=_0x2e6cb2,_0x259d63=document['createElement'](_0x5850cc(0x15c));_0x259d63[_0x5850cc(0x109)]=_0x5850cc(0x15f),_0x259d63['id']='subject-modal',_0x259d63[_0x5850cc(0x159)]=_0x5850cc(0x113)+_0x5d3f0a+'</h2>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22close-modal\x22>×</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<ul\x20class=\x22full-file-list\x22></ul>\x0a\x20\x20\x20\x20\x20\x20';const _0x4837b2=_0x259d63[_0x5850cc(0x140)](_0x5850cc(0x157));subjectFiles[_0x5d3f0a][_0x5850cc(0x13f)](_0x494ab1=>{const _0x47ed2d=_0x5850cc,_0x56e2ef=document[_0x47ed2d(0x13b)]('li');_0x56e2ef[_0x47ed2d(0x159)]=_0x47ed2d(0x103)+_0x494ab1[_0x47ed2d(0x128)]+_0x47ed2d(0x13a)+(_0x494ab1[_0x47ed2d(0x147)]||_0x47ed2d(0x10d))+_0x47ed2d(0x11b),_0x56e2ef[_0x47ed2d(0x140)](_0x47ed2d(0x15a))['onclick']=()=>{const _0x1f165f=_0x47ed2d;this['openFileViewer'](_0x494ab1['id'],_0x494ab1['name']),_0x259d63[_0x1f165f(0x114)][_0x1f165f(0x13c)]=_0x1f165f(0x134),_0x8d76fb[_0x1f165f(0x114)][_0x1f165f(0x13c)]=_0x1f165f(0x134);},_0x4837b2[_0x47ed2d(0x14e)](_0x56e2ef);});const _0x8d76fb=document[_0x5850cc(0x13b)]('div');_0x8d76fb[_0x5850cc(0x109)]=_0x5850cc(0x152),_0x8d76fb[_0x5850cc(0x14e)](_0x259d63),document[_0x5850cc(0x126)]['appendChild'](_0x8d76fb),_0x259d63['querySelector'](_0x5850cc(0x150))[_0x5850cc(0x11e)]=()=>{const _0x2dd434=_0x5850cc;document[_0x2dd434(0x126)][_0x2dd434(0x14c)](_0x8d76fb);};}[_0x2e6cb2(0x137)](_0x2e428b,_0x4ace13){const _0x1763fc=_0x2e6cb2,_0x20e002=document[_0x1763fc(0x156)](_0x1763fc(0x15d)),_0x7f3c79=document[_0x1763fc(0x156)](_0x1763fc(0x133)),_0x53f942=document['getElementById'](_0x1763fc(0x12d));_0x20e002[_0x1763fc(0x114)][_0x1763fc(0x13c)]=_0x1763fc(0x151),_0x7f3c79[_0x1763fc(0x114)][_0x1763fc(0x13c)]=_0x1763fc(0x134),_0x53f942['style'][_0x1763fc(0x13c)]=_0x1763fc(0x100),fetch('https://archidriveserver.x10.mx/get_view_link.php?fileId='+_0x2e428b)[_0x1763fc(0x10a)](_0x59739e=>_0x59739e['json']())[_0x1763fc(0x10a)](_0x4f7ce8=>{const _0xd2d4f=_0x1763fc;_0x53f942[_0xd2d4f(0x114)][_0xd2d4f(0x13c)]='none',_0x7f3c79[_0xd2d4f(0x114)][_0xd2d4f(0x13c)]=_0xd2d4f(0x100),_0x4f7ce8[_0xd2d4f(0x11f)]?_0x7f3c79[_0xd2d4f(0x159)]='<iframe\x20src=\x22'+_0x4f7ce8[_0xd2d4f(0x11f)]+_0xd2d4f(0x161):_0x7f3c79['innerHTML']=_0xd2d4f(0x139);})['catch'](_0x6e8354=>{const _0x5670e0=_0x1763fc;_0x53f942[_0x5670e0(0x114)][_0x5670e0(0x13c)]=_0x5670e0(0x134),_0x7f3c79[_0x5670e0(0x159)]=_0x5670e0(0x106);});}}function _0x38ec(){const _0x219bc5=['getElementById','.full-file-list','1e8c14rulIflCj91x9Ie_EZmAath048qd','innerHTML','.view-file-btn','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22file-name\x22>','div','fileViewerModal','161neqcWB','subject-modal','categorizeFiles','\x22\x20allowfullscreen></iframe>','block','files','2142576gcBiyD','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22file-info\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22file-name\x22>','https://archidriveserver.x10.mx/get_files.php','length','Errore\x20nel\x20caricamento\x20del\x20file','getSubjectIcon','1Il6s0a1srFNCILCfrxEDaYHsgsV8BudZ','className','then','renderSubjectGrid','1d2Ve7r63WfPLkn6cv6F-dDQOzu22tBBH','Nessuna\x20descrizione','subject-card','</small>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','button','1yEDUO3jNyULtxw5R8qixMWs8oaffIw7Q','keys','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22modal-header\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h2>','style','1pKOljjsMGoAqA6cymzJTdFC5k45pv0cA','1ywtyKG6T7I-M65ytZkzXzfX7oI7ZGxxp','18uLulIj','map','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22subject-icon\x22>','1797742RjsZeq','</small>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22view-file-btn\x22>Apri</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','Errore\x20nel\x20caricamento\x20dei\x20file:','1nEdV-I0TibE589bQJ_bPj4ohg0qmzXGF','onclick','webViewLink','1I-xU5JFozX1g_6Aw28M34SNWEqBOiEg0','Altro','🇬🇧','showSubjectFiles','3096018XumuQi','entries','body','</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h2>','name','482095xURXwu','1jrNZA0oCNR9KxT0lrWVad2BNj1jKaGbU','179945iWAgQA','1GzneZx3KAqEEleuPxP4oYgWQwO2zYiwb','loadingViewer','Vedi\x20tutti\x20i\x20file','1VUxHXLeh9pDs4Z7OZNsckVImzcmz93Md','1O6fI9sSjWfzCwloXZJHqLykx2NstQKC6','fileList','loadFiles','fileContent','none','subject-grid','\x20file</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','openFileViewer','allFiles','Impossibile\x20visualizzare\x20il\x20file','</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<small\x20class=\x22file-description\x22>','createElement','display','</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<small\x20class=\x22file-description\x22>','subject-file-list','forEach','querySelector','slice','https://docs.google.com/forms/d/e/1FAIpQLSfsWBawrQRmbZIfR_3KNL9jukQFX3SSQdRRDiGj6xipo-W5Rw/viewform?usp=sf_link','378093lgkfgf','1l7uxr1TvFmkocJRppK2y6Hv_wKNucviD','parents','<a\x20href=\x22','description','1tlx87JM_2eUqNfqQACdjVIfV0oxLBRWl','188696Gmltic','subject-header','textContent','removeChild','1YAkiFCpiea05HepoZa3bxO_pjipXU49F','appendChild','determineSubject','.close-modal','flex','modal','1viclutz7KMs5c29MwwhcK85oc5SRRzxO','50QpDPIt','\x22\x20target=\x22_blank\x22>Carica\x20un\x20file\x20per\x20primo!</a>'];_0x38ec=function(){return _0x219bc5;};return _0x38ec();}const fileManager=new FileManager();function loadDriveFiles(){const _0x5a3d51=_0x2e6cb2;return fileManager[_0x5a3d51(0x132)]();}function closeFileViewer(){const _0x3bdec6=_0x2e6cb2,_0x4e72db=document[_0x3bdec6(0x156)](_0x3bdec6(0x15d));_0x4e72db[_0x3bdec6(0x114)]['display']='none',document[_0x3bdec6(0x156)]('fileContent')[_0x3bdec6(0x159)]='';}
+let subjectFiles = {
+    'Indirizzo Informatico': [],
+    'Indirizzo di Automazione': [],
+    'Indirizzo Meccanico': [],
+    'Indirizzo Chimico': [],
+    'Matematica': [],
+    'Telecomunicazioni': [],
+    'Italiano': [],
+    'Storia': [],
+    'Inglese': [],
+    'Fisica': [],
+    'TTRG': [],
+    'Scienze Motorie': [],
+    'Diritto': [],
+    'Geografia': [],
+    'Scienze Della Terra': [],
+    'Biologia': [],
+    'Ed. Civica': [],
+    'Altro': []
+  };
+  
+  class FileManager {
+      constructor() {
+          this.allFiles = [];
+      }
+    
+      async loadFiles() {
+        try {
+            const response = await fetch("https://archidriveserver.x10.mx/get_files.php");
+            const data = await response.json();
+    
+            this.allFiles = data.files.map(file => {
+                return {
+                    ...file,
+                    fullPath: file.parents[0] || ''
+                };
+            });
+    
+            this.categorizeFiles();
+            this.renderSubjectGrid();
+        } catch (error) {
+            console.error("Errore nel caricamento dei file:", error);
+        }
+    }
+    
+      categorizeFiles() {
+          Object.keys(subjectFiles).forEach(subject => (subjectFiles[subject] = []));
+    
+          this.allFiles.forEach(file => {
+              const folderPath = file.parents[0] || '';
+              const subjectMatch = this.determineSubject(folderPath);
+              
+              const category = subjectMatch || 'Altro';
+              subjectFiles[category].push(file);
+          });
+      }
+    
+      determineSubject(fullPath = '') {
+          const folderSubjectMap = {
+              'Matematica': '1O6fI9sSjWfzCwloXZJHqLykx2NstQKC6',
+              'Indirizzo Informatico': '1pKOljjsMGoAqA6cymzJTdFC5k45pv0cA',
+              'Storia': '1nEdV-I0TibE589bQJ_bPj4ohg0qmzXGF',
+              'Italiano': '1YAkiFCpiea05HepoZa3bxO_pjipXU49F',
+              'Inglese': '1JpFR3D4E8JytTOxovlQOhaL5E99xnP3Y',
+              'Fisica': '1ywtyKG6T7I-M65ytZkzXzfX7oI7ZGxxp',
+              'TTRG': '1tlx87JM_2eUqNfqQACdjVIfV0oxLBRWl',
+              'Telecomunicazioni': '1Il6s0a1srFNCILCfrxEDaYHsgsV8BudZ',
+              'Diritto': '1viclutz7KMs5c29MwwhcK85oc5SRRzxO',
+              'Indirizzo Meccanico': '1I-xU5JFozX1g_6Aw28M34SNWEqBOiEg0',
+              'Indirizzo Chimico': '1jrNZA0oCNR9KxT0lrWVad2BNj1jKaGbU',
+              'Indirizzo di Automazione': '1e8c14rulIflCj91x9Ie_EZmAath048qd',
+              'Scienze Motorie': '1l7uxr1TvFmkocJRppK2y6Hv_wKNucviD',
+              'Geografia': '1VUxHXLeh9pDs4Z7OZNsckVImzcmz93Md',
+              'Scienze Della Terra': '1GzneZx3KAqEEleuPxP4oYgWQwO2zYiwb',
+              'Biologia': '1GdgLakQZcunPnJtgKzTfa-WAVDv8uhxe',
+              'Ed. Civica': '15sBgNJOGVtVdt35GeWT9_qK9TpF7PHSv',
+              'Altro': '1d2Ve7r63WfPLkn6cv6F-dDQOzu22tBBH'
+          };
+    
+          for (const [subject, folderPath] of Object.entries(folderSubjectMap)) {
+              if (fullPath === folderPath) {
+                  return subject;
+              }
+          }
+    
+          return 'Altro';
+      }
+    
+      renderSubjectGrid() {
+          const container = document.getElementById('fileList');
+          container.innerHTML = '';
+          container.className = 'subject-grid';
+      
+          Object.entries(subjectFiles).forEach(([subject, files]) => {
+              const subjectCard = document.createElement('div');
+              subjectCard.className = 'subject-card';
+              
+              const subjectHeader = document.createElement('div');
+              subjectHeader.className = 'subject-header';
+              subjectHeader.innerHTML = `
+                  <div class="subject-icon">${this.getSubjectIcon(subject)}</div>
+                  <h2>${subject}</h2>
+                  <span class="file-count">${files.length} file</span>
+              `;
+      
+              const fileList = document.createElement('ul');
+              fileList.className = 'subject-file-list';
+              
+              if (files.length === 0) {
+                  const emptyMessage = document.createElement('li');
+                  const LINK = 'https://docs.google.com/forms/d/e/1FAIpQLSfsWBawrQRmbZIfR_3KNL9jukQFX3SSQdRRDiGj6xipo-W5Rw/viewform?usp=sf_link';
+                  emptyMessage.className = 'empty-category-message';
+                  emptyMessage.innerHTML = `<a href="${LINK}" target="_blank">Carica un file per primo!</a>`;
+                  fileList.appendChild(emptyMessage);
+              } else {
+                  files.slice(0, 3).forEach(file => {
+                      const fileItem = document.createElement('li');
+                      fileItem.innerHTML = `
+                          <span class="file-name">${file.name}</span>
+                          <small class="file-description">${file.description || 'Nessuna descrizione'}</small>
+                      `;
+                      fileItem.onclick = () => this.openFileViewer(file.id, file.name);
+                      fileList.appendChild(fileItem);
+                  });
+              }
+      
+              const viewAllBtn = document.createElement('button');
+              viewAllBtn.textContent = 'Vedi tutti i file';
+              viewAllBtn.className = 'view-all-btn';
+              viewAllBtn.onclick = () => this.showSubjectFiles(subject);
+      
+              subjectCard.appendChild(subjectHeader);
+              subjectCard.appendChild(fileList);
+              subjectCard.appendChild(viewAllBtn);
+              container.appendChild(subjectCard);
+          });
+      }
+  
+    getSubjectIcon(subject) {
+        const icons = {
+            'Indirizzo Informatico': '💻',
+            'Indirizzo di Automazione': '🤖',
+            'Indirizzo Meccanico': '🔧',
+            'Indirizzo Chimico': '🧪',
+            'Matematica': '📐',
+            'Telecomunicazioni': '📡',
+            'Italiano': '📖',
+            'Storia': '🏛️',
+            'Inglese': '🇬🇧',
+            'Fisica': '⚛️',
+            'TTRG': '📏',
+            'Scienze Motorie': '🏀',
+            'Diritto': '⚖️',
+            'Geografia': '🌍',
+            'Scienze Della Terra': '🔭',
+            'Biologia': '🧬',
+            'Ed. Civica': '📋',
+            'Altro': '📃'
+        };
+        return icons[subject] || '📄';
+    }
+  
+    showSubjectFiles(subject) {
+        const modalContent = document.createElement('div');
+        modalContent.className = 'subject-modal';
+        modalContent.id = 'subject-modal';
+        modalContent.innerHTML = `
+            <div class="modal-header">
+                <h2>${subject}</h2>
+                <button class="close-modal">×</button>
+            </div>
+            <ul class="full-file-list"></ul>
+        `;
+  
+        const fileList = modalContent.querySelector('.full-file-list');
+        subjectFiles[subject].forEach(file => {
+            const fileItem = document.createElement('li');
+            fileItem.innerHTML = `
+                <div class="file-info">
+                    <span class="file-name">${file.name}</span>
+                    <small class="file-description">${file.description || 'Nessuna descrizione'}</small>
+                </div>
+                <button class="view-file-btn">Apri</button>
+            `;
+            fileItem.querySelector('.view-file-btn').onclick = () => {
+              this.openFileViewer(file.id, file.name);
+              modalContent.style.display = "none";
+              modal.style.display = "none";
+          };
+            fileList.appendChild(fileItem);
+            
+        });
+  
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+  
+        modalContent.querySelector('.close-modal').onclick = () => {
+            document.body.removeChild(modal);
+        };
+    }
+  
+    openFileViewer(fileId, fileName) {
+  
+        const modal = document.getElementById("fileViewerModal");
+        const content = document.getElementById("fileContent");
+        const loading = document.getElementById("loadingViewer");
+  
+        modal.style.display = "flex";
+        content.style.display = "none";
+        loading.style.display = "block";
+  
+        fetch(`https://archidriveserver.x10.mx/get_view_link.php?fileId=${fileId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                loading.style.display = "none";
+                content.style.display = "block";
+  
+                if (data.webViewLink) {
+                    content.innerHTML = `<iframe src="${data.webViewLink}" allowfullscreen></iframe>`;
+                } else {
+                    content.innerHTML = "Impossibile visualizzare il file";
+                }
+            })
+            .catch((error) => {
+                loading.style.display = "none";
+                content.innerHTML = "Errore nel caricamento del file";
+            });
+    }
+  }
+  
+  const fileManager = new FileManager();
+  
+  function loadDriveFiles() {
+      return fileManager.loadFiles();
+  }
+  
+  function closeFileViewer() {
+    const modal2 = document.getElementById("fileViewerModal");
+    modal2.style.display = "none";
+    document.getElementById("fileContent").innerHTML = "";
+  }
