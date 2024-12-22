@@ -16,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
         rel="stylesheet">
 
     <!--Libreria JavaScript per file .pdf-->
@@ -27,6 +27,20 @@
     <script src="js/fileManager.js"></script>
     <script src="js/uiEvents.js"></script>
     <script src="js/googleApiSetup.js"></script>
+
+<!--Cookie Banner Script-->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    if (!localStorage.getItem("cookiesAccepted")) {
+        document.getElementById("cookieBanner").style.display = "block";
+    }
+});
+
+function acceptCookies() {
+    localStorage.setItem("cookiesAccepted", "true");
+    document.getElementById("cookieBanner").style.display = "none";
+}
+</script>
 
     <script>
         window.onload = () => {
@@ -126,10 +140,17 @@
         </div>
     </div>
 
+    <div id="cookieBanner" class="cookie-banner">
+        <p>Questo sito utilizza i cookie per migliorare l'esperienza dell'utente. <a href="privacyPolicy.html" target="_blank">Leggi la nostra Cookie Policy</a>.</p>
+        <button onclick="acceptCookies()">Accetta</button>
+    </div>
+
 <footer>
 <a href="https://docs.google.com/forms/d/e/1FAIpQLSdCd67V6NpuEsmX2HvcmHE3yiw3kIqOihtCzpPVOVDiwqp79A/viewform?usp=header" class="feedbackBtn" target="_blank"><h3>- Segnala o proponi qualcosa -</h3></a>
 <div align="center"><a href="privacyPolicy.html" target="_blank"><h3>Privacy Policy e Cookie Policy</h3></a></div>
 </footer>
+
+<script src="js/cookieBanner.js"></script>
 
 </body>
 
