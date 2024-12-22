@@ -26,12 +26,15 @@
     <script src="js/utils.js"></script>
     <script src="js/fileManager.js"></script>
     <script src="js/uiEvents.js"></script>
-    <script src="js/googleApiSetup.js"></script>
+    <script src="js/text.js"></script>
 
 <!--Cookie Banner Script-->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    if (!localStorage.getItem("cookiesAccepted")) {
+    console.log(localStorage.getItem("cookiesAccepted"));
+    if (localStorage.getItem("cookiesAccepted") === "true") {
+        document.getElementById("cookieBanner").style.display = "none";
+    } else {
         document.getElementById("cookieBanner").style.display = "block";
     }
 });
