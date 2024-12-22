@@ -1108,6 +1108,7 @@ h2 {
 
 .cookie-buttons {
     margin-top: 20px;
+    z-index: 999999999999999999999999999999999;
 }
 
 .cookie-banner button {
