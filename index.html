@@ -31,7 +31,6 @@
 <!--Cookie Banner Script-->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    console.log(localStorage.getItem("cookiesAccepted"));
     if (localStorage.getItem("cookiesAccepted") === "true") {
         document.getElementById("cookieBanner").style.display = "none";
     } else {
