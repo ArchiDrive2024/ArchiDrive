@@ -1108,6 +1108,7 @@ h2 {
 
 .cookie-buttons {
     margin-top: 20px;
+    cursor: pointer;
 }
 
 .cookie-banner button {
@@ -1116,6 +1117,7 @@ h2 {
     margin-right: 10px;
     color: white;
     border: none;
+    cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
     cursor: pointer;
