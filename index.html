@@ -42,7 +42,8 @@ function acceptCookies() {
 }
 
 function declineCookies() {
-    document.getElementById("cookieBanner").style.display = "none";
+    localStorage.setItem("cookiesAccepted", "false");
+    window.location.href = "https://www.google.com";
 }
 </script>
 
@@ -146,8 +147,10 @@ function declineCookies() {
 
     <div id="cookieBanner" class="cookie-banner">
         <p>Questo sito utilizza i cookie per migliorare l'esperienza dell'utente. <a href="privacyPolicy.html" target="_blank">Leggi la nostra Cookie Policy</a>.</p>
-        <button onclick="acceptCookies()">Accetta</button>
-        <button onclick="declineCookies()">Esci</button>
+        <div class="cookie-buttons">
+            <button onclick="acceptCookies()">Accetta</button>
+            <button class="decline" onclick="declineCookies()">Esci</button>
+        </div>
     </div>
 
 <footer>
