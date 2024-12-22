@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArchiDrive - Gestione File</title>
+    <title>ArchiDrive</title>
     <link href="css/style.css" rel="stylesheet">
     <!--Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/logo.ico"/>
@@ -38,6 +38,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function acceptCookies() {
     localStorage.setItem("cookiesAccepted", "true");
+    document.getElementById("cookieBanner").style.display = "none";
+}
+
+function declineCookies() {
     document.getElementById("cookieBanner").style.display = "none";
 }
 </script>
@@ -143,6 +147,7 @@ function acceptCookies() {
     <div id="cookieBanner" class="cookie-banner">
         <p>Questo sito utilizza i cookie per migliorare l'esperienza dell'utente. <a href="privacyPolicy.html" target="_blank">Leggi la nostra Cookie Policy</a>.</p>
         <button onclick="acceptCookies()">Accetta</button>
+        <button onclick="declineCookies()">Esci</button>
     </div>
 
 <footer>

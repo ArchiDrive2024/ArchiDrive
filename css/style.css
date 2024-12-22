@@ -1084,11 +1084,14 @@ h2 {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #333;
+    background-color: rgba(0, 0, 0, 0.8);
     color: white;
     text-align: center;
-    padding: 10px;
+    padding: 20px;
     z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .cookie-banner p {
@@ -1097,15 +1100,29 @@ h2 {
     display: inline;
 }
 
+.cookie-banner a {
+    color: #4CAF50;
+    text-decoration: underline;
+}
+
 .cookie-banner button {
     margin-left: 10px;
-    padding: 5px 10px;
+    padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .cookie-banner button:hover {
     background-color: #45a049;
+}
+
+.cookie-banner button.decline {
+    background-color: #f44336;
+}
+
+.cookie-banner button.decline:hover {
+    background-color: #e53935;
 }
